@@ -32,6 +32,7 @@ internal fun LinkAccountScreen(
     SnackScaffold(
         topBar = {
             TopBar(
+                text = component.accountType.name,
                 onIconClick = component::onCancel,
             )
         },
@@ -47,7 +48,7 @@ internal fun LinkAccountScreen(
             verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),
         ) {
             Icon(
-                imageVector = OtpIcons.Dropbox,
+                imageVector = component.accountType.icon,
                 contentDescription = "icon",
                 modifier = Modifier.size(96.dp),
                 tint = MaterialTheme.colorScheme.secondary,

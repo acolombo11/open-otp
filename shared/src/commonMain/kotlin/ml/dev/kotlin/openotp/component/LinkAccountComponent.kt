@@ -10,6 +10,8 @@ import ml.dev.kotlin.openotp.backup.OAuth2AccountService
 
 interface LinkAccountComponent {
 
+    val accountType: UserLinkedAccountType
+
     val code: Value<String>
     val shouldEnterCode: Value<Boolean>
     val isLoadingAppPermissions: Value<Boolean>
@@ -22,7 +24,7 @@ interface LinkAccountComponent {
 }
 
 class LinkAccountComponentImpl(
-    private val accountType: UserLinkedAccountType,
+    override val accountType: UserLinkedAccountType,
     componentContext: ComponentContext,
     private val navigateOnCancel: () -> Unit,
 ) : AbstractBackupComponent(componentContext), LinkAccountComponent {
