@@ -11,7 +11,6 @@ import ml.dev.kotlin.openotp.backup.SerializedStoredOtpCodeDataBackup.Companion.
 import ml.dev.kotlin.openotp.otp.StoredOtpCodeData
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.util.StateFlowSettings
-import ml.dev.kotlin.openotp.util.unit
 import org.koin.core.component.get
 
 abstract class AbstractBackupComponent(
@@ -98,6 +97,6 @@ abstract class AbstractBackupComponent(
             val downloadedData = jobs.awaitAll().filterNotNull()
             downloadedData.merge(current = currentCodeData)
         }
-        _userOtpCodeData.updateInScope { updatedCodeData }.unit()
+        _userOtpCodeData.updateInScope { updatedCodeData }
     }
 }

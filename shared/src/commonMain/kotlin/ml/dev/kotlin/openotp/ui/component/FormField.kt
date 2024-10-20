@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -69,7 +70,7 @@ private fun PasswordIcon(
     showPassword: Boolean,
     onIconClick: () -> Unit,
 ) {
-    ClickableIconButton(onClick = onIconClick) {
+    IconButton(onClick = onIconClick) {
         Icon(
             imageVector = if (showPassword) Icons.Default.Visibility else Icons.Default.VisibilityOff,
             contentDescription = stringResource(OpenOtpResources.strings.password_field_name)

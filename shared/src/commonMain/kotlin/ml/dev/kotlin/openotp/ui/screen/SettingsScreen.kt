@@ -71,9 +71,10 @@ private fun CloudBackupsSettingsGroup(component: SettingsComponent) {
 
 @Composable
 private fun LinkdedAccountState(accountState: SettingsComponentImpl.LinkedAccountState) {
+    val name = stringResource(accountState.name)
     NamedBox(
         icon = accountState.icon,
-        name = accountState.iconContentDescription(),
+        name = name,
         iconModifier = Modifier.alpha(
             alpha = when (accountState) {
                 is Unlinked -> 0.7f

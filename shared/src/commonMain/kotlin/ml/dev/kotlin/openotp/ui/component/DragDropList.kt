@@ -21,7 +21,6 @@ import androidx.compose.ui.zIndex
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import ml.dev.kotlin.openotp.util.runIfNonNull
 import kotlin.math.roundToInt
 
 interface DragDropListData<out T : Any> {
@@ -282,7 +281,7 @@ internal class DragDropState(
         currentDraggedItemIndex = item.index
     }
 
-    fun findOverScroll(): Float? = runIfNonNull(initiallyDraggedElement) {
+    fun findOverScroll(): Float? = initiallyDraggedElement?.let {
         val startOffset = it.offset + draggedDistance
         val endOffset = it.offsetEnd + draggedDistance
         when {

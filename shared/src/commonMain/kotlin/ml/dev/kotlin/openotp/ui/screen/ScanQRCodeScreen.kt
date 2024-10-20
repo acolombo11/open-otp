@@ -6,6 +6,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
@@ -76,11 +78,12 @@ internal fun ScanQRCodeScreen(
 @Composable
 private fun CancelScanQRCodeButton(onCancel: () -> Unit) {
     val cancelText = stringResource(OpenOtpResources.strings.cancel_button_name)
-    ClickableIconButton(
+    val containerColor = MaterialTheme.colorScheme.background
+    val contentColor = contentColorFor(MaterialTheme.colorScheme.background)
+    IconButton(
         onClick = onCancel,
         modifier = Modifier.size(44.dp),
-        containerColor = MaterialTheme.colorScheme.background,
-        contentColor = contentColorFor(MaterialTheme.colorScheme.background),
+        colors = IconButtonDefaults.iconButtonColors(containerColor, contentColor, containerColor, contentColor)
     ) {
         Icon(
             imageVector = Icons.Outlined.Close,

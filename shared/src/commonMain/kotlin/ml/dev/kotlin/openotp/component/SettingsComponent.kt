@@ -1,6 +1,5 @@
 package ml.dev.kotlin.openotp.component
 
-import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import ml.dev.kotlin.openotp.USER_PREFERENCES_MODULE_QUALIFIER
@@ -83,7 +82,9 @@ class SettingsComponentImpl(
         .stateFlow
         .map { linkedAccounts ->
             UserLinkedAccountType.entries.map { accountType ->
-                if (accountType.isLinked(linkedAccounts)) Linked(accountType) else Unlinked(accountType)
+                if (accountType.isLinked(linkedAccounts)) Linked(accountType) else Unlinked(
+                    accountType
+                )
             }
         }
         .asValue()
@@ -123,8 +124,7 @@ class SettingsComponentImpl(
     sealed class LinkedAccountState(protected val accountType: UserLinkedAccountType) : Named {
         val icon = accountType.icon
 
-        @Composable
-        fun iconContentDescription(): String = accountType.iconContentDescription()
+        val name = accountType.res
 
         abstract fun onClick()
     }

@@ -26,13 +26,15 @@ actual class BiometryAuthenticator {
 
         val (canEvaluate, error) = memScoped {
             val error = alloc<ObjCObjectVar<NSError?>>()
-            val canEvaluate = runCatchingOrNull {
+            val canEvaluate = try {
                 laContext.canEvaluatePolicy(POLICY, error = error.ptr)
+            } catch (t: Throwable) {
+                null
             }
             canEvaluate to error.value
         }
 
-        if (error != null) throw error.toException()
+        error?.let { throw Exception(it.description()) }
         if (canEvaluate == null) return false
 
         return callbackToCoroutine { callback ->
@@ -82,7 +84,7 @@ private suspend fun <T> callbackToCoroutine(callbackCall: ((T?, NSError?) -> Uni
         }
     }
 
-private fun NSError?.toException(): Exception = when {
+private fun NSError.toException(): Exception = when {
     this == null -> NullPointerException("NSError is null")
     else -> Exception(this.description())
 }

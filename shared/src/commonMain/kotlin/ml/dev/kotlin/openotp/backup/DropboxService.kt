@@ -5,7 +5,6 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.util.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
@@ -14,7 +13,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ml.dev.kotlin.openotp.component.UserLinkedAccountsModel
 import ml.dev.kotlin.openotp.util.createJsonHttpClient
-import ml.dev.kotlin.openotp.util.randomBytesChallenge
 import ml.dev.kotlin.openotp.util.safeHttpRequest
 import ml.dev.kotlin.openotp.util.safeRequest
 import org.kotlincrypto.hash.sha2.SHA256
@@ -26,17 +24,11 @@ sealed class DropboxService : OAuth2AccountService {
     protected val client: HttpClient by lazy(::createJsonHttpClient)
 
     data object Initialized : DropboxService(), OAuth2AccountService.Initialized {
-        override fun requestPermissions(): RequestedPermissions? {
-            val bytes = randomBytesChallenge(count = 32) ?: return null
-            val codeVerifier = bytes.dropboxEncodeBase64()
-            val codeChallenge = SHA256().digest(codeVerifier.encodeToByteArray()).dropboxEncodeBase64()
-            val accessData = DropboxAccessData(codeVerifier, codeChallenge)
-            return RequestedPermissions(accessData)
-        }
+        override fun requestPermissions() = getAccessData()?.let { RequestedPermissions(it) }
     }
 
     class RequestedPermissions(
-        private val accessData: DropboxAccessData,
+        private val accessData: AccessData,
     ) : DropboxService(), OAuth2AccountService.RequestedPermissions {
 
         override fun generateVerifyUri(): String =
@@ -112,11 +104,6 @@ sealed class DropboxService : OAuth2AccountService {
 
 private val HttpHeaders.DropboxApiArg: String get() = "Dropbox-Api-Arg"
 private val HttpHeaders.DropboxApiResult: String get() = "Dropbox-Api-Result"
-
-data class DropboxAccessData(
-    val codeVerifier: String,
-    val codeChallenge: String,
-)
 
 @Serializable
 data class DropboxRefreshableAccessData(
@@ -203,11 +190,6 @@ private fun DropboxOAuth2TokenResponse.toDropboxRefreshableAccessData(refreshTok
 private const val CLIENT_ID: String = "gr00g1l67sjv015"
 
 private const val BACKUP_PATH: String = "/OpenOTP.backup"
-
-private fun ByteArray.dropboxEncodeBase64(): String = encodeBase64()
-    .replace('+', '-')
-    .replace('/', '_')
-    .replace("=", "")
 
 private fun ByteArray.dropboxContentHash(blockSize: Int = 4_194_304): String {
     var offset = 0

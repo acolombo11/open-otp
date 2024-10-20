@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.update
 import ml.dev.kotlin.openotp.otp.*
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.util.isValidBase32Secret
-import ml.dev.kotlin.openotp.util.unit
 
 interface AddOtpProviderComponent {
 
@@ -127,7 +126,8 @@ class AddTotpProviderComponentImpl(
     override fun onSaveClicked() = with(model.value) {
         val secret = secret
         if (!secret.isValidBase32Secret) {
-            return notifyInvalidSecret()
+            notifyInvalidSecret()
+            return@with
         }
 
         val config = TotpConfig(period, digits, algorithm)
@@ -136,7 +136,7 @@ class AddTotpProviderComponentImpl(
             .updateInScope { it + codeData }
             .invokeOnCompletion {
                 super.onSaveClicked()
-            }.unit()
+            }
     }
 }
 
@@ -215,11 +215,13 @@ class AddHotpProviderComponentImpl(
     override fun onSaveClicked() = with(model.value) {
         val secret = secret
         if (!secret.isValidBase32Secret) {
-            return notifyInvalidSecret()
+            notifyInvalidSecret()
+            return@with
         }
         val counter = counter.toLongOrNull()
         if (!counter.isValid()) {
-            return notifyInvalidCounter()
+            notifyInvalidCounter()
+            return@with
         }
 
         val config = HotpConfig(digits, algorithm)
@@ -228,7 +230,7 @@ class AddHotpProviderComponentImpl(
             .updateInScope { it + codeData }
             .invokeOnCompletion {
                 super.onSaveClicked()
-            }.unit()
+            }
     }
 
     private fun notifyInvalidCounter() =

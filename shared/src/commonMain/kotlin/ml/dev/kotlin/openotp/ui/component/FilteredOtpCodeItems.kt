@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.CloudDone
 import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material.icons.outlined.CloudUpload
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -81,7 +82,7 @@ internal fun FilteredOtpCodeItems(
                         contentDescription = stringResource(OpenOtpResources.strings.search_icon_name),
                     )
 
-                    true -> ClickableIconButton(
+                    true -> IconButton(
                         onClick = {
                             onSearchBarActiveChange(false)
                             searchQuery = ""
@@ -96,7 +97,7 @@ internal fun FilteredOtpCodeItems(
             },
             trailingIcon = {
                 if (isSearchActive && searchQuery.isNotEmpty()) {
-                    ClickableIconButton(onClick = { searchQuery = "" }) {
+                    IconButton(onClick = { searchQuery = "" }) {
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = stringResource(OpenOtpResources.strings.remove_icon_name),
@@ -110,7 +111,7 @@ internal fun FilteredOtpCodeItems(
                             NotSynced -> Icons.Outlined.CloudOff
                             NothingToSync -> null
                         }?.let { imageVector ->
-                            ClickableIconButton(
+                            IconButton(
                                 onClick = onCloudBackupClick,
                                 modifier = Modifier.offset(x = 12.dp),
                             ) {
@@ -120,7 +121,7 @@ internal fun FilteredOtpCodeItems(
                                 )
                             }
                         }
-                        ClickableIconButton(onSettingsIconClick) {
+                        IconButton(onSettingsIconClick) {
                             Icon(
                                 imageVector = Icons.Default.Settings,
                                 contentDescription = stringResource(OpenOtpResources.strings.settings_name),

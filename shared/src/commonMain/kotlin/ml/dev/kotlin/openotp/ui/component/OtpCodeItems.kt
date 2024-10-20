@@ -42,7 +42,6 @@ import ml.dev.kotlin.openotp.otp.TotpData
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.ui.issuerIcon
 import ml.dev.kotlin.openotp.util.currentEpochMilliseconds
-import ml.dev.kotlin.openotp.util.letTrue
 import kotlin.math.roundToInt
 
 @Composable
@@ -75,7 +74,7 @@ internal fun OtpCodeItems(
         val dismissState = rememberDismissState(
             confirmStateChange = {
                 when (it) {
-                    DismissedToEnd -> localClipboardManager.copyOtpCode(currentItem, currentTimestamp).letTrue()
+                    DismissedToEnd -> true.also { localClipboardManager.copyOtpCode(currentItem, currentTimestamp) }
                     DismissedToStart -> when (confirmCodeDismiss) {
                         true -> true.also { dismissedCode = currentItem }
                         false -> onOtpCodeDataDismiss(currentItem)
@@ -242,7 +241,7 @@ private fun RestartButton(
     onClick: () -> Unit,
     size: Dp = 36.dp,
 ) {
-    ClickableIconButton(
+    IconButton(
         onClick = onClick,
         modifier = Modifier.size(size),
     ) {

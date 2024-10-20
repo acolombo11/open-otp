@@ -21,7 +21,6 @@ import ml.dev.kotlin.openotp.ui.component.DragDropListData.Grouped
 import ml.dev.kotlin.openotp.ui.component.DragDropListData.Listed
 import ml.dev.kotlin.openotp.util.StateFlowSettings
 import ml.dev.kotlin.openotp.util.currentEpochMilliseconds
-import ml.dev.kotlin.openotp.util.unit
 import org.koin.core.component.get
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -153,15 +152,17 @@ class MainComponentImpl(
                 set(currentIndex, it[updatedIndex])
                 set(updatedIndex, it[currentIndex])
             }
-        }.unit()
+        }
     }
 
-    override fun onOtpCodeDataRestart(otpData: OtpData) = when (otpData) {
-        is TotpData -> Unit
-        is HotpData -> _userOtpCodeData.updateInScope { before ->
-            val updated = otpData.increaseCounter()
-            before.map { if (it != otpData) it else updated }
-        }.unit()
+    override fun onOtpCodeDataRestart(otpData: OtpData) {
+        when (otpData) {
+            is TotpData -> {}
+            is HotpData -> _userOtpCodeData.updateInScope { before ->
+                val updated = otpData.increaseCounter()
+                before.map { if (it != otpData) it else updated }
+            }
+        }
     }
 
     override fun copyOtpCode(clipboardManager: ClipboardManager, item: OtpData, timestamp: Long) {

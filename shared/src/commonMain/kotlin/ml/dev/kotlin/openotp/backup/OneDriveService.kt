@@ -6,14 +6,12 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.util.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ml.dev.kotlin.openotp.component.UserLinkedAccountsModel
 import ml.dev.kotlin.openotp.util.createJsonHttpClient
-import ml.dev.kotlin.openotp.util.randomBytesChallenge
 import ml.dev.kotlin.openotp.util.safeHttpRequest
 import ml.dev.kotlin.openotp.util.safeRequest
 import org.kotlincrypto.hash.sha2.SHA256
@@ -24,17 +22,11 @@ sealed class OneDriveService : OAuth2AccountService {
     protected val client: HttpClient by lazy(::createJsonHttpClient)
 
     data object Initialized : OneDriveService(), OAuth2AccountService.Initialized {
-        override fun requestPermissions(): RequestedPermissions? {
-            val bytes = randomBytesChallenge(count = 32) ?: return null
-            val codeVerifier = bytes.oneDriveEncodeBase64()
-            val codeChallenge = SHA256().digest(codeVerifier.encodeToByteArray()).oneDriveEncodeBase64()
-            val accessData = OneDriveAccessData(codeVerifier, codeChallenge)
-            return RequestedPermissions(accessData)
-        }
+        override fun requestPermissions() = getAccessData()?.let { RequestedPermissions(it) }
     }
 
     class RequestedPermissions(
-        private val accessData: OneDriveAccessData,
+        private val accessData: AccessData,
     ) : OneDriveService(), OAuth2AccountService.RequestedPermissions {
 
         override fun generateVerifyUri(): String =
@@ -119,11 +111,6 @@ sealed class OneDriveService : OAuth2AccountService {
     }
 }
 
-data class OneDriveAccessData(
-    val codeVerifier: String,
-    val codeChallenge: String,
-)
-
 @Serializable
 data class OneDriveRefreshableAccessData(
     val expiresAt: Instant,
@@ -184,11 +171,6 @@ private fun OneDriveOAuth2TokenResponse.toOneDriveRefreshableAccessData(refreshT
 private const val CLIENT_ID: String = "8612f175-11d3-4dea-960a-d2cb89867a33"
 
 private const val BACKUP_PATH: String = "OpenOTP/OpenOTP.backup"
-
-private fun ByteArray.oneDriveEncodeBase64(): String = encodeBase64()
-    .replace('+', '-')
-    .replace('/', '_')
-    .replace("=", "")
 
 private fun ByteArray.oneDriveContentHash(): String =
     SHA256().digest(this).toHexString(format = HexFormat.UpperCase)

@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import ml.dev.kotlin.openotp.otp.*
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.util.isValidBase32Secret
-import ml.dev.kotlin.openotp.util.letFalse
 
 interface ScanQRCodeComponent {
 
@@ -23,7 +22,7 @@ class ScanQRCodeComponentImpl(
 ) : AbstractBackupComponent(componentContext), ScanQRCodeComponent {
 
     override fun onQRCodeScanned(result: QRResult): Boolean = when (result) {
-        is QRResult.QRError -> navigateOnCancel(invalidQRCodeMessage).letFalse()
+        is QRResult.QRError -> false.also { navigateOnCancel(invalidQRCodeMessage) }
         is QRResult.QRSuccess -> {
             val distinctOtpData = result.nonEmptyCodes.distinct().map(::extractQRCodeUserOtpCodeData)
             val nonNullOtpData = distinctOtpData.filterNotNull()
