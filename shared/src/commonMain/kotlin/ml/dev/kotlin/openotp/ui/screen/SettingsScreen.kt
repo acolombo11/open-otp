@@ -14,7 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.icerock.moko.resources.compose.stringResource
@@ -28,34 +27,32 @@ import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.ui.component.NamedBox
 import ml.dev.kotlin.openotp.ui.component.NamedDropdownMenu
 import ml.dev.kotlin.openotp.ui.component.NamedSwitch
-import ml.dev.kotlin.openotp.util.TopBarClickableIconScreen
+import ml.dev.kotlin.openotp.ui.component.SnackScaffold
+import ml.dev.kotlin.openotp.ui.component.TopBar
 
 @Composable
-internal fun SettingsScreen(
-    component: SettingsComponent,
-    accent: Color = MaterialTheme.colorScheme.primary,
-) {
-    TopBarClickableIconScreen(
-        onIconClick = component::onExitSettings,
-        accent = accent,
-        text = stringResource(OpenOtpResources.strings.settings_screen_name),
-    ) {
+internal fun SettingsScreen(component: SettingsComponent) {
+    SnackScaffold(
+        topBar = {
+            TopBar(
+                text = stringResource(OpenOtpResources.strings.settings_screen_name),
+                onIconClick = component::onExitSettings,
+            )
+        },
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(
-                    top = 64.dp,
-                    start = 20.dp,
-                    end = 20.dp,
-                )
+                .padding(top = padding.calculateTopPadding())
+                .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Spacer(Modifier.height(4.dp))
             LookAndFeelSettingsGroup(component)
             CodesManagementSettingsGroup(component)
             SecuritySettingsGroup(component)
             CloudBackupsSettingsGroup(component)
-            Spacer(Modifier.height(48.dp))
+            Spacer(Modifier.height(padding.calculateBottomPadding()))
         }
     }
 }

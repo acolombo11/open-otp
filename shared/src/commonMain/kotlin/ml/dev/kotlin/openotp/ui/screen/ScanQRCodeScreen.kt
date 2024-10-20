@@ -23,11 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import dev.icerock.moko.resources.compose.stringResource
 import `in`.procyk.compose.camera.qr.QRCodeScanner
-import `in`.procyk.compose.util.NoSystemBarsScreen
 import ml.dev.kotlin.openotp.component.ScanQRCodeComponent
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.ui.component.ClickableIconButton
 import ml.dev.kotlin.openotp.ui.component.LoadingAnimatedVisibility
+import ml.dev.kotlin.openotp.ui.component.SnackScaffold
 import ml.dev.kotlin.openotp.ui.theme.Typography
 
 @Composable
@@ -35,11 +35,13 @@ internal fun ScanQRCodeScreen(
     scanQRCodeComponent: ScanQRCodeComponent,
     holePercent: Float = 0.75f,
 ) {
-    NoSystemBarsScreen {
+    SnackScaffold { padding ->
         var isLoading by remember { mutableStateOf(true) }
 
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
         ) {
             LoadingAnimatedVisibility(
                 visibleContent = !isLoading

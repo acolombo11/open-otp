@@ -1,10 +1,7 @@
 package ml.dev.kotlin.openotp
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -37,35 +34,25 @@ import org.koin.dsl.module
 @Composable
 internal fun OpenOtpApp(component: OpenOtpAppComponent) {
     OpenOtpTheme(component) {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            BindBiometryAuthenticatorEffect(koinInject<BiometryAuthenticator>())
-            OnceLaunchedEffect { component.onAuthenticate() }
+        BindBiometryAuthenticatorEffect(koinInject<BiometryAuthenticator>())
+        OnceLaunchedEffect { component.onAuthenticate() }
 
-            val authenticated by component.authenticated.subscribeAsState()
-            AuthenticationScreen(
-                authenticated = authenticated,
-                onAuthenticate = component::onAuthenticate,
-            ) {
-                Children(
-                    stack = component.stack,
-                    modifier = Modifier.fillMaxSize(),
-                    animation = stackAnimation(slide())
-                ) { child ->
-                    val snackbarHostState = koinInject<SnackbarHostState>()
-                    Scaffold(
-                        snackbarHost = { SnackbarHost(snackbarHostState) },
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        when (val instance = child.instance) {
-                            is Child.Main -> MainScreen(instance.component)
-                            is Child.ScanQRCode -> ScanQRCodeScreen(instance.component)
-                            is Child.AddProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent)
-                            is Child.Settings -> SettingsScreen(instance.component)
-                            is Child.LinkAccount -> LinkAccountScreen(instance.component)
-                        }
-                    }
+        val authenticated by component.authenticated.subscribeAsState()
+        AuthenticationScreen(
+            authenticated = authenticated,
+            onAuthenticate = component::onAuthenticate,
+        ) {
+            Children(
+                stack = component.stack,
+                modifier = Modifier.fillMaxSize(),
+                animation = stackAnimation(slide())
+            ) { child ->
+                when (val instance = child.instance) {
+                    is Child.Main -> MainScreen(instance.component)
+                    is Child.ScanQRCode -> ScanQRCodeScreen(instance.component)
+                    is Child.AddProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent)
+                    is Child.Settings -> SettingsScreen(instance.component)
+                    is Child.LinkAccount -> LinkAccountScreen(instance.component)
                 }
             }
         }

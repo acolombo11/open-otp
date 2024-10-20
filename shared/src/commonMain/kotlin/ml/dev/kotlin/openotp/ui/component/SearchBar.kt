@@ -88,9 +88,9 @@ internal fun SearchBar(
         }
     }
     val unconsumedInsets = remember { UnconsumedInsets() }
-    val topPadding = remember(density) {
+    val topPadding = remember {
         derivedStateOf {
-            SearchBarVerticalPadding + unconsumedInsets.asPaddingValues(density).calculateTopPadding()
+            SearchBarVerticalPadding
         }
     }
     val localDensity = LocalDensity.current

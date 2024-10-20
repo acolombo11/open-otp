@@ -24,7 +24,7 @@ interface OpenOtpAppComponent {
 
     fun onBackClicked(toIndex: Int)
 
-    sealed class Child {
+    sealed class Child(val hasAppBar: Boolean = false) {
         class Main(val component: MainComponent) : Child()
         class ScanQRCode(val component: ScanQRCodeComponent) : Child()
         class AddProvider(
@@ -32,8 +32,8 @@ interface OpenOtpAppComponent {
             val hotpComponent: AddHotpProviderComponent,
         ) : Child()
 
-        class Settings(val component: SettingsComponent) : Child()
-        class LinkAccount(val component: LinkAccountComponent) : Child()
+        class Settings(val component: SettingsComponent) : Child(true)
+        class LinkAccount(val component: LinkAccountComponent) : Child(true)
     }
 }
 

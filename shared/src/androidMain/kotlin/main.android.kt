@@ -1,6 +1,11 @@
+import android.graphics.Color
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.defaultComponentContext
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ml.dev.kotlin.openotp.OpenOtpApp
 import ml.dev.kotlin.openotp.component.OpenOtpAppComponentContext
 import ml.dev.kotlin.openotp.component.OpenOtpAppComponentImpl
@@ -22,6 +27,19 @@ fun ComponentActivity.androidOpenOtpApp() {
     val component = OpenOtpAppComponentImpl(defaultComponentContext())
     setContent {
         KoinContext {
+            val theme by component.theme.subscribeAsState()
+            val child by component.stack.subscribeAsState()
+
+            val invert = child.active.instance.hasAppBar
+            val isDark = theme.isDarkTheme()
+            enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) {
+                    if (invert) !isDark else isDark
+                },
+                navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) {
+                    isDark
+                },
+            )
             OpenOtpApp(component)
         }
     }

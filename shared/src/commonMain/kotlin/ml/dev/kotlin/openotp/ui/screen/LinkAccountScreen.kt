@@ -18,27 +18,30 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.icerock.moko.resources.compose.stringResource
 import ml.dev.kotlin.openotp.component.LinkAccountComponent
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.ui.OtpIcons
 import ml.dev.kotlin.openotp.ui.component.FORM_BUTTON_PADDING
 import ml.dev.kotlin.openotp.ui.component.FORM_BUTTON_SPACE
 import ml.dev.kotlin.openotp.ui.component.FormField
 import ml.dev.kotlin.openotp.ui.component.FormFieldButtonType
-import ml.dev.kotlin.openotp.ui.icons.Dropbox
-import ml.dev.kotlin.openotp.util.TopBarClickableIconScreen
+import ml.dev.kotlin.openotp.ui.component.SnackScaffold
+import ml.dev.kotlin.openotp.ui.component.TopBar
 
 @Composable
 internal fun LinkAccountScreen(
     component: LinkAccountComponent,
 ) {
-    TopBarClickableIconScreen(
-        onIconClick = component::onCancel,
-        contentAlignment = Alignment.Center,
-    ) {
+    SnackScaffold(
+        topBar = {
+            TopBar(
+                onIconClick = component::onCancel,
+            )
+        },
+    ) { padding ->
         val shouldEnterCode by component.shouldEnterCode.subscribeAsState()
         val uriHandler = LocalUriHandler.current
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(padding)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),

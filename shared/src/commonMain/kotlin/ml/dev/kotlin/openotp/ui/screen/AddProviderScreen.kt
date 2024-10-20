@@ -27,15 +27,18 @@ import ml.dev.kotlin.openotp.otp.OtpType.TOTP
 import ml.dev.kotlin.openotp.otp.TotpPeriod
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.ui.component.*
-import ml.dev.kotlin.openotp.util.SystemBarsScreen
 
 @Composable
 internal fun AddProviderScreen(
     totpComponent: AddTotpProviderComponent,
     hotpComponent: AddHotpProviderComponent,
 ) {
-    SystemBarsScreen {
-        Column(modifier = Modifier.fillMaxWidth()) {
+    SnackScaffold { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(padding),
+        ) {
             var selected by remember { mutableStateOf(OtpType.entries.first()) }
             TabRow(selectedTabIndex = selected.ordinal) {
                 OtpType.entries.forEach { type ->
