@@ -3,13 +3,13 @@ package ml.dev.kotlin.openotp
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import `in`.procyk.compose.util.OnceLaunchedEffect
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.builtins.ListSerializer
 import ml.dev.kotlin.openotp.component.LinkedAccountsSyncState.NothingToSync
@@ -35,7 +35,7 @@ import org.koin.dsl.module
 internal fun OpenOtpApp(component: OpenOtpAppComponent) {
     OpenOtpTheme(component) {
         BindBiometryAuthenticatorEffect(koinInject<BiometryAuthenticator>())
-        OnceLaunchedEffect { component.onAuthenticate() }
+        LaunchedEffect(true) { component.onAuthenticate() }
 
         val authenticated by component.authenticated.subscribeAsState()
         AuthenticationScreen(
