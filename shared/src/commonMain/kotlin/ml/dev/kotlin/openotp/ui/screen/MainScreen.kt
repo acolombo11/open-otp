@@ -38,13 +38,12 @@ internal fun MainScreen(mainComponent: MainComponent) {
             }
         }
 
-        val codeData by mainComponent.codeData.subscribeAsState()
-        val timestamp by mainComponent.timestamp.subscribeAsState()
-        val confirmOtpDataDelete by mainComponent.confirmOtpDataDelete.subscribeAsState()
-        val isSearchActive by mainComponent.isSearchActive.subscribeAsState()
-        val syncState by mainComponent.linkedAccountsSyncState.subscribeAsState()
-
         Box(modifier = Modifier.padding(padding)) {
+            val codeData by mainComponent.codeData.subscribeAsState()
+            val timestamp by mainComponent.timestamp.subscribeAsState()
+            val confirmOtpDataDelete by mainComponent.confirmOtpDataDelete.subscribeAsState()
+            val isSearchActive by mainComponent.isSearchActive.subscribeAsState()
+            val syncState by mainComponent.linkedAccountsSyncState.subscribeAsState()
             FilteredOtpCodeItems(
                 codeData = codeData,
                 timestamp = timestamp,
@@ -61,8 +60,7 @@ internal fun MainScreen(mainComponent: MainComponent) {
             )
 
             val listState = rememberLazyListState()
-            val dragDropState =
-                rememberDragDropState(listState, mainComponent::onOtpCodeDataReordered)
+            val dragDropState = rememberDragDropState(listState, mainComponent::onOtpCodeDataReordered)
             val isDragAndDropEnabled by mainComponent.isDragAndDropEnabled.subscribeAsState()
             val showSortedGroupsHeaders by mainComponent.showSortedGroupsHeaders.subscribeAsState()
             AllOtpCodeItems(

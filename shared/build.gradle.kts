@@ -92,7 +92,6 @@ kotlin {
 
             implementation(libs.compose.extensions.camera.permission)
             implementation(libs.compose.extensions.camera.qr)
-            implementation(libs.compose.extensions.util)
 
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.core)
