@@ -105,7 +105,7 @@ private val Uri.label: String?
     get() = path?.removePrefix("/")
 
 private val Uri.hmacAlgorithm: HmacAlgorithm?
-    get() = when (getQueryParameter("algorithm")) {
+    get() = when (getQueryParameter("algorithm")?.lowercase()) {
         "sha1" -> HmacAlgorithm.SHA1
         "sha256" -> HmacAlgorithm.SHA256
         "sha512" -> HmacAlgorithm.SHA512
