@@ -84,7 +84,7 @@ private suspend fun <T> callbackToCoroutine(callbackCall: ((T?, NSError?) -> Uni
         }
     }
 
-private fun NSError.toException(): Exception = when {
+private fun NSError?.toException(): Exception = when {
     this == null -> NullPointerException("NSError is null")
     else -> Exception(this.description())
 }

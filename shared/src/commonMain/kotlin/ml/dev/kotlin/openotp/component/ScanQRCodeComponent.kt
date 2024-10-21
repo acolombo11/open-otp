@@ -44,8 +44,8 @@ class ScanQRCodeComponentImpl(
         navigateOnCancel(null)
     }
 
-    private fun extractQRCodeUserOtpCodeData(qrRawValue: String?): OtpData? = try {
-        val uri = qrRawValue.uri
+    private fun extractQRCodeUserOtpCodeData(qrRawValue: String): OtpData? = try {
+        val uri = Uri.parseOrNull(qrRawValue) ?: throw InvalidQRCodeException
 
         uri.validateScheme()
         val secret = uri.secret
@@ -57,19 +57,21 @@ class ScanQRCodeComponentImpl(
         when (uri.otpType) {
             OtpType.TOTP -> {
                 val period = uri.period
+                val default by lazy { TotpConfig() }
                 val config = TotpConfig(
-                    period = period ?: TotpConfig.DEFAULT.period,
-                    codeDigits = codeDigits ?: TotpConfig.DEFAULT.codeDigits,
-                    hmacAlgorithm = hmacAlgorithm ?: TotpConfig.DEFAULT.hmacAlgorithm
+                    period = period ?: default.period,
+                    codeDigits = codeDigits ?: default.codeDigits,
+                    hmacAlgorithm = hmacAlgorithm ?: default.hmacAlgorithm,
                 )
                 TotpData(issuer, name, secret, config)
             }
 
             else -> {
                 val counter = uri.counter
+                val default by lazy { HotpConfig() }
                 val config = HotpConfig(
-                    codeDigits = codeDigits ?: HotpConfig.DEFAULT.codeDigits,
-                    hmacAlgorithm = hmacAlgorithm ?: HotpConfig.DEFAULT.hmacAlgorithm
+                    codeDigits = codeDigits ?: default.codeDigits,
+                    hmacAlgorithm = hmacAlgorithm ?: default.hmacAlgorithm,
                 )
                 HotpData(issuer, name, secret, counter, config)
             }
@@ -136,8 +138,3 @@ private val Uri.counter: HotpCounter
 
 private fun Uri.validateScheme(): Unit =
     if ("otpauth" != scheme) throw InvalidQRCodeException else Unit
-
-private val String?.uri: Uri
-    get() = this
-        ?.let(Uri.Companion::parseOrNull)
-        ?: throw InvalidQRCodeException

@@ -108,10 +108,9 @@ internal fun OtpCodeItems(
                 dismissedCode = null
                 onOtpCodeDataDismiss(dismissed)
             },
-            text = when (val presentation = dismissed.namePresentation) {
-                null -> stringResource(OpenOtpResources.strings.confirm_delete_item_prompt)
-                else -> stringResource(OpenOtpResources.strings.confirm_delete_specific_item_prompt, presentation)
-            },
+            text = dismissed.namePresentation?.let { presentation ->
+                stringResource(OpenOtpResources.strings.confirm_delete_specific_item_prompt, presentation)
+            } ?: stringResource(OpenOtpResources.strings.confirm_delete_item_prompt),
             icon = Icons.Default.Delete,
             imageDescription = stringResource(OpenOtpResources.strings.question_icon_name),
         )
@@ -173,15 +172,17 @@ private fun OtpCodeItem(
                 )
             }
         }
-        val itemIcon = remember(item) { item.issuer.issuerIcon }
+        val itemIcon = remember(item) { item.issuerIcon }
         ListItem(
-            overlineContent = overlineContent@{
-                Text(
-                    text = item.namePresentation ?: return@overlineContent,
-                    fontSize = 12.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+            overlineContent = {
+                item.namePresentation?.let {
+                    Text(
+                        text = it,
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
             },
             headlineContent = {
                 when (trailingData) {

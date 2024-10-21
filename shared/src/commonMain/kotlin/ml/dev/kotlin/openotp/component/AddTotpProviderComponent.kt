@@ -78,9 +78,9 @@ class AddTotpProviderComponentImpl(
         val accountName: String = "",
         val secret: String = "",
         val secretIsError: Boolean = true,
-        val algorithm: HmacAlgorithm = TotpConfig.DEFAULT.hmacAlgorithm,
-        val digits: OtpDigits = TotpConfig.DEFAULT.codeDigits,
-        val period: TotpPeriod = TotpConfig.DEFAULT.period,
+        val algorithm: HmacAlgorithm = TotpConfig().hmacAlgorithm,
+        val digits: OtpDigits = TotpConfig().codeDigits,
+        val period: TotpPeriod = TotpConfig().period,
     )
 
     private val model: MutableStateFlow<TotpModel> = MutableStateFlow(TotpModel())
@@ -155,8 +155,8 @@ class AddHotpProviderComponentImpl(
         val accountName: String = "",
         val secret: String = "",
         val secretIsError: Boolean = true,
-        val algorithm: HmacAlgorithm = HotpConfig.DEFAULT.hmacAlgorithm,
-        val digits: OtpDigits = HotpConfig.DEFAULT.codeDigits,
+        val algorithm: HmacAlgorithm = HotpConfig().hmacAlgorithm,
+        val digits: OtpDigits = HotpConfig().codeDigits,
         val counter: String = "0",
         val counterIsError: Boolean = false,
     )
