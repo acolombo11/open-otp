@@ -100,7 +100,7 @@ private fun AddProviderFormConfirmButtons(component: AddOtpProviderComponent, pa
     SaveCancelFormConfirmButtons(
         modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
         onSaveClicked = component::onSaveClicked,
-        onCancelClicked = component::onCancelClicked
+        onCancelClicked = component::onCancelClicked,
     )
 }
 

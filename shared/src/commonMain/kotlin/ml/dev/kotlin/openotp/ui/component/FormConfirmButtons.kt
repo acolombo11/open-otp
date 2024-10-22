@@ -33,7 +33,7 @@ internal fun FormConfirmButtons(
                 onClick = cancel.onClick,
                 contentPadding = buttonPadding,
             ) {
-                Icon(imageVector = cancel.imageVector, contentDescription = cancel.contentDescription)
+                Icon(imageVector = cancel.imageVector, contentDescription = cancel.text)
                 Spacer(Modifier.width(iconPadding))
                 Text(
                     text = cancel.text,
@@ -44,7 +44,7 @@ internal fun FormConfirmButtons(
                 onClick = confirm.onClick,
                 contentPadding = buttonPadding
             ) {
-                Icon(imageVector = confirm.imageVector, contentDescription = confirm.contentDescription)
+                Icon(imageVector = confirm.imageVector, contentDescription = confirm.text)
                 Spacer(Modifier.width(iconPadding))
                 Text(
                     text = confirm.text,
@@ -66,7 +66,6 @@ internal val FormButtonsStandardHeight: Dp = 48.dp
 
 internal class FormConfirmButtonData(
     val text: String,
-    val contentDescription: String?,
     val imageVector: ImageVector,
     val onClick: () -> Unit,
 )
@@ -77,19 +76,15 @@ internal fun SaveCancelFormConfirmButtons(
     onSaveClicked: () -> Unit,
     onCancelClicked: () -> Unit,
 ) {
-    val saveText = stringResource(OpenOtpResources.strings.save_button_name)
-    val cancelText = stringResource(OpenOtpResources.strings.cancel_button_name)
     FormConfirmButtons(
         modifier = modifier.padding(16.dp),
         confirm = FormConfirmButtonData(
-            text = saveText,
-            contentDescription = saveText,
+            text = stringResource(OpenOtpResources.strings.save_button_name),
             imageVector = Icons.Outlined.Save,
             onClick = onSaveClicked,
         ),
         cancel = FormConfirmButtonData(
-            text = cancelText,
-            contentDescription = cancelText,
+            text = stringResource(OpenOtpResources.strings.cancel_button_name),
             imageVector = Icons.Outlined.Cancel,
             onClick = onCancelClicked,
         )
