@@ -31,12 +31,9 @@ sealed class OtpData {
                     else -> this
                 }
             }
-        when {
-            issuer != null && accountName != null -> "$issuer: $accountName"
-            issuer != null -> issuer
-            accountName != null -> accountName
-            else -> null
-        }
+        listOfNotNull(issuer, accountName)
+            .takeIf { it.isNotEmpty() }
+            ?.joinToString(": ")
     }
 }
 

@@ -45,9 +45,9 @@ class ScanQRCodeComponentImpl(
     }
 
     private fun extractQRCodeUserOtpCodeData(qrRawValue: String): OtpData? = try {
-        val uri = Uri.parseOrNull(qrRawValue) ?: throw InvalidQRCodeException
+        val uri = Uri.parseOrNull(qrRawValue)?.takeIf { it.isOtpAuthScheme }
+            ?: throw InvalidQRCodeException
 
-        uri.validateScheme()
         val secret = uri.secret
         val issuer = uri.issuer
         val name = uri.label
@@ -136,5 +136,5 @@ private val Uri.counter: HotpCounter
         ?.takeIf { it.isValid() }
         ?: throw InvalidQRCodeException
 
-private fun Uri.validateScheme(): Unit =
-    if ("otpauth" != scheme) throw InvalidQRCodeException else Unit
+private val Uri.isOtpAuthScheme: Boolean
+    get() = scheme == "otpauth"

@@ -77,16 +77,14 @@ private object MainRunDispatcher : CoroutineDispatcher() {
 private suspend fun <T> callbackToCoroutine(callbackCall: ((T?, NSError?) -> Unit) -> Unit): T =
     suspendCoroutine { continuation ->
         callbackCall { data, error ->
-            when {
-                data != null -> continuation.resume(data)
-                else -> continuation.resumeWithException(error.toException())
-            }
+            data?.let {
+                continuation.resume(it)
+            } ?: continuation.resumeWithException(error.toException())
         }
     }
 
-private fun NSError?.toException(): Exception = when {
-    this == null -> NullPointerException("NSError is null")
-    else -> Exception(this.description())
-}
+private fun NSError?.toException(): Exception = this?.description?.let { description ->
+    Exception(description)
+} ?: NullPointerException("NSError is null")
 
 private val POLICY: LAPolicy = LAPolicyDeviceOwnerAuthenticationWithBiometrics

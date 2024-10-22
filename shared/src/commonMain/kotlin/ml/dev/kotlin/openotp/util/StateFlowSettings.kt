@@ -27,10 +27,9 @@ class StateFlowSettings<T : Any>(
 ) {
     private val settings: Settings = createSettings(name, context)
 
-    private fun readStoredValue(): T = when (val readEncoded = settings.getStringOrNull(name)) {
-        null -> default
-        else -> SecureStoredMutableValueJson.decodeFromString(serializer, readEncoded)
-    }
+    private fun readStoredValue(): T = settings.getStringOrNull(name)?.let { readEncoded ->
+        SecureStoredMutableValueJson.decodeFromString(serializer, readEncoded)
+    } ?: default
 
     private fun writeStoredValue(value: T) {
         val encoded = SecureStoredMutableValueJson.encodeToString(serializer, value)
