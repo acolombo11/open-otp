@@ -23,15 +23,7 @@ fun TopBar(
     center: Boolean = false,
     accent: Color = MaterialTheme.colorScheme.primary,
     onIconClick: (() -> Unit)? = null,
-) {
-    val title: @Composable () -> Unit = {
-        Text(
-            text = text.orEmpty(),
-            style = MaterialTheme.typography.titleLarge,
-        )
-    }
-
-    val navigationIcon: @Composable () -> Unit = onIconClick?.let {
+    navigationIcon: @Composable () -> Unit = onIconClick?.let {
         {
             IconButton(onClick = it) {
                 Icon(
@@ -41,7 +33,14 @@ fun TopBar(
                 )
             }
         }
-    } ?: { }
+    } ?: {},
+) {
+    val title: @Composable () -> Unit = {
+        Text(
+            text = text.orEmpty(),
+            style = MaterialTheme.typography.titleLarge,
+        )
+    }
 
     if (center) {
         CenterAlignedTopAppBar(

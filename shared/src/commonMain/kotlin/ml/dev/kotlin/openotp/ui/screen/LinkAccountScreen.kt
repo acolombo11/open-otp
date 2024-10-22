@@ -18,8 +18,8 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.icerock.moko.resources.compose.stringResource
 import ml.dev.kotlin.openotp.component.LinkAccountComponent
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.ui.component.FORM_BUTTON_PADDING
-import ml.dev.kotlin.openotp.ui.component.FORM_BUTTON_SPACE
+import ml.dev.kotlin.openotp.ui.component.FormButtonIconSpacing
+import ml.dev.kotlin.openotp.ui.component.FormButtonStandardPadding
 import ml.dev.kotlin.openotp.ui.component.FormField
 import ml.dev.kotlin.openotp.ui.component.FormFieldButtonType
 import ml.dev.kotlin.openotp.ui.component.SnackScaffold
@@ -77,14 +77,14 @@ internal fun LinkAccountScreen(
                     )
                     Button(
                         onClick = { component.onUserAccessCodeConfirmed() },
-                        contentPadding = FORM_BUTTON_PADDING,
+                        contentPadding = FormButtonStandardPadding,
                     ) {
                         Icon(
                             imageVector = Icons.Default.Link,
                             contentDescription = "link",
                             modifier = Modifier.rotate(-45f)
                         )
-                        Spacer(Modifier.width(FORM_BUTTON_SPACE))
+                        Spacer(Modifier.width(FormButtonIconSpacing))
                         Text("Link account")
                     }
                     val isLoadingAppPermissions by component.isLoadingAppPermissions.subscribeAsState()

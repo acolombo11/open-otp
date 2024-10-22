@@ -18,14 +18,12 @@ import ml.dev.kotlin.openotp.shared.OpenOtpResources
 internal fun FormConfirmButtons(
     confirm: FormConfirmButtonData,
     cancel: FormConfirmButtonData,
-    padding: Dp = 16.dp,
-    buttonPadding: PaddingValues = FORM_BUTTON_PADDING,
-    buttonSpacer: Dp = FORM_BUTTON_SPACE,
+    modifier: Modifier = Modifier,
+    buttonPadding: PaddingValues = FormButtonStandardPadding,
+    iconPadding: Dp = FormButtonIconSpacing,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomEnd,
     ) {
         Row(
@@ -36,7 +34,7 @@ internal fun FormConfirmButtons(
                 contentPadding = buttonPadding,
             ) {
                 Icon(imageVector = cancel.imageVector, contentDescription = cancel.contentDescription)
-                Spacer(Modifier.width(buttonSpacer))
+                Spacer(Modifier.width(iconPadding))
                 Text(
                     text = cancel.text,
                     style = MaterialTheme.typography.bodyMedium,
@@ -47,7 +45,7 @@ internal fun FormConfirmButtons(
                 contentPadding = buttonPadding
             ) {
                 Icon(imageVector = confirm.imageVector, contentDescription = confirm.contentDescription)
-                Spacer(Modifier.width(buttonSpacer))
+                Spacer(Modifier.width(iconPadding))
                 Text(
                     text = confirm.text,
                     style = MaterialTheme.typography.bodyMedium,
@@ -57,12 +55,14 @@ internal fun FormConfirmButtons(
     }
 }
 
-internal val FORM_BUTTON_PADDING = PaddingValues(
+internal val FormButtonStandardPadding = PaddingValues(
     horizontal = 20.dp,
     vertical = 12.dp,
 )
 
-internal val FORM_BUTTON_SPACE = 8.dp
+internal val FormButtonIconSpacing = 8.dp
+
+internal val FormButtonsStandardHeight: Dp = 48.dp
 
 internal class FormConfirmButtonData(
     val text: String,
@@ -73,12 +73,14 @@ internal class FormConfirmButtonData(
 
 @Composable
 internal fun SaveCancelFormConfirmButtons(
+    modifier: Modifier = Modifier,
     onSaveClicked: () -> Unit,
     onCancelClicked: () -> Unit,
 ) {
     val saveText = stringResource(OpenOtpResources.strings.save_button_name)
     val cancelText = stringResource(OpenOtpResources.strings.cancel_button_name)
     FormConfirmButtons(
+        modifier = modifier.padding(16.dp),
         confirm = FormConfirmButtonData(
             text = saveText,
             contentDescription = saveText,

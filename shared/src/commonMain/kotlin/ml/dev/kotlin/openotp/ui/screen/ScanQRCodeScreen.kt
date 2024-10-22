@@ -27,7 +27,6 @@ import dev.icerock.moko.resources.compose.stringResource
 import `in`.procyk.compose.camera.qr.QRCodeScanner
 import ml.dev.kotlin.openotp.component.ScanQRCodeComponent
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.ui.component.ClickableIconButton
 import ml.dev.kotlin.openotp.ui.component.LoadingAnimatedVisibility
 import ml.dev.kotlin.openotp.ui.component.SnackScaffold
 import ml.dev.kotlin.openotp.ui.theme.Typography
@@ -40,37 +39,33 @@ internal fun ScanQRCodeScreen(
     SnackScaffold { padding ->
         var isLoading by remember { mutableStateOf(true) }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
+        LoadingAnimatedVisibility(
+            visibleContent = !isLoading
         ) {
-            LoadingAnimatedVisibility(
-                visibleContent = !isLoading
-            ) {
-                QRCodeScanner(
-                    onResult = scanQRCodeComponent::onQRCodeScanned,
-                    onIsLoadingChange = { isLoading = it },
-                    backgroundColor = MaterialTheme.colorScheme.background,
-                    contentDescription = stringResource(OpenOtpResources.strings.camera_image_name),
-                    missingCameraContent = {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text(
-                                text = stringResource(OpenOtpResources.strings.camera_not_available),
-                                textAlign = TextAlign.Center,
-                            )
-                        }
+            QRCodeScanner(
+                onResult = scanQRCodeComponent::onQRCodeScanned,
+                onIsLoadingChange = { isLoading = it },
+                backgroundColor = MaterialTheme.colorScheme.background,
+                contentDescription = stringResource(OpenOtpResources.strings.camera_image_name),
+                missingCameraContent = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = stringResource(OpenOtpResources.strings.camera_not_available),
+                            textAlign = TextAlign.Center,
+                        )
                     }
-                )
-                QRCodeCameraHole(holePercent)
-                ScanQRCodeScreenDescription(
-                    holePercent = holePercent,
-                    onCancel = scanQRCodeComponent::onCancelClick,
-                )
-            }
+                }
+            )
+            QRCodeCameraHole(holePercent)
+            ScanQRCodeScreenDescription(
+                holePercent = holePercent,
+                onCancel = scanQRCodeComponent::onCancelClick,
+            )
         }
     }
 }
