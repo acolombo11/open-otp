@@ -54,20 +54,21 @@ internal fun OtpCodeItems(
     onOtpCodeDataDismiss: (OtpData) -> Boolean,
     onRestartCode: (OtpData) -> Unit,
     dragDropState: DragDropState,
+    contentPadding: PaddingValues,
     copyOtpCode: ClipboardManager.(item: OtpData, timestamp: Long) -> Unit,
 ) {
     val currentTimestamp by rememberUpdatedState(timestamp)
     var dismissedCode by remember { mutableStateOf<OtpData?>(null) }
 
     DragDropList(
+        modifier = Modifier.fillMaxSize(),
         items = codeData,
         key = { it.uuid },
         dragDropState = dragDropState,
         enabled = isDragAndDropEnabled,
         showHeaders = showSortedGroupsHeaders,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 12.dp),
+        contentPadding = contentPadding,
+        verticalArrangement = Arrangement.spacedBy(OtpCodeItemVerticalSpacing),
     ) { item, modifier ->
         val currentItem by rememberUpdatedState(item)
         val localClipboardManager = LocalClipboardManager.current
@@ -125,12 +126,7 @@ private fun OtpCodeItem(
     onRestartCode: () -> Unit,
 ) {
     ElevatedCard(
-        modifier = Modifier.padding(
-            top = 0.dp,
-            bottom = 12.dp,
-            start = 12.dp,
-            end = 12.dp,
-        ),
+        modifier = Modifier.padding(horizontal = OtpCodeItemHorizontalSpacing),
         onClick = onClick,
     ) {
         val trailingData = when (item) {
@@ -229,6 +225,9 @@ private fun OtpCodeItem(
     }
 }
 
+internal val OtpCodeItemHorizontalSpacing = 12.dp
+internal val OtpCodeItemVerticalSpacing = 12.dp
+
 private sealed interface TrailingData {
     data object Restart : TrailingData
     data class CountDown(
@@ -320,7 +319,6 @@ private fun DismissBackground(dismissState: DismissState) {
     Box(
         Modifier
             .fillMaxSize()
-            .padding(bottom = 12.dp)
             .background(color)
             .padding(horizontal = 36.dp),
         contentAlignment = alignment

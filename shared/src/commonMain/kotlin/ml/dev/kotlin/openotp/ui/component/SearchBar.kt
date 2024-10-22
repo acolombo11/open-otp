@@ -41,7 +41,6 @@ import kotlin.math.max
 import kotlin.math.min
 import androidx.compose.foundation.layout.MutableWindowInsets as UnconsumedInsets
 
-
 @Composable
 internal fun SearchBar(
     query: String,
@@ -311,6 +310,7 @@ internal val SearchBarMaxWidth: Dp = 720.dp
 internal val SearchBarVerticalPadding: Dp = 12.dp
 internal val SearchBarHorizontalPadding: Dp = 16.dp
 internal val SearchBarIconOffsetX: Dp = 4.dp
+internal val SearchBarStandardHeight: Dp = 58.dp
 
 private const val AnimationEnterDurationMillis: Int = 400
 private const val AnimationExitDurationMillis: Int = 350

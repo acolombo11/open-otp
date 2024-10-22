@@ -23,6 +23,7 @@ import ml.dev.kotlin.openotp.shared.OpenOtpResources
 
 @Composable
 internal fun AddActionButton(
+    modifier: Modifier = Modifier,
     dragDropState: DragDropState,
     visible: Boolean,
     onScanQRCodeClick: (() -> Unit)?,
@@ -34,7 +35,7 @@ internal fun AddActionButton(
         exit = fadeOut(),
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp),
             contentAlignment = Alignment.BottomEnd,
@@ -57,10 +58,12 @@ internal fun AddActionButton(
             }
             MultiFloatingActionButton(
                 items = listOfNotNull(
-                    MultiFabItem(
-                        id = FabItem.ScanQRCode,
-                        icon = Icons.Default.QrCodeScanner,
-                    ).takeUnless { onScanQRCodeClick == null },
+                    onScanQRCodeClick?.let {
+                        MultiFabItem(
+                            id = FabItem.ScanQRCode,
+                            icon = Icons.Default.QrCodeScanner,
+                        )
+                    },
                     MultiFabItem(
                         id = FabItem.AddWithText,
                         icon = Icons.Default.EditNote,

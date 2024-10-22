@@ -62,7 +62,7 @@ internal fun <Id> MultiFloatingActionButton(
                     imageVector = fabIcon.icon,
                     contentDescription = fabIcon.contentDescription,
                     modifier = Modifier.rotate(rotation),
-                    tint = contentColor
+                    tint = contentColor,
                 )
             },
             text = {
@@ -152,4 +152,7 @@ fun FabIcon(
     contentDescription: String? = null,
     iconRotate: Float? = null,
 ): FabIcon = FabIconImpl(icon, text, contentDescription, iconRotate)
+
+internal val MultiFabStandardHeight = 72.dp
+
 

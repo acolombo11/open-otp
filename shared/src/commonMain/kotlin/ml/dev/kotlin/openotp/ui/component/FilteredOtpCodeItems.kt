@@ -2,9 +2,11 @@ package ml.dev.kotlin.openotp.ui.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -36,6 +38,7 @@ import ml.dev.kotlin.openotp.ui.component.DragDropListData.Companion.emptyDragDr
 
 @Composable
 internal fun FilteredOtpCodeItems(
+    padding: PaddingValues,
     codeData: PresentedOtpCodeData,
     timestamp: Long,
     confirmCodeDismiss: Boolean,
@@ -52,6 +55,7 @@ internal fun FilteredOtpCodeItems(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(top = padding.calculateTopPadding())
             .semantics { isTraversalGroup = true }
             .zIndex(1f),
         contentAlignment = Alignment.TopCenter,
@@ -144,6 +148,10 @@ internal fun FilteredOtpCodeItems(
                 onRestartCode = onRestartCode,
                 copyOtpCode = copyOtpCode,
                 dragDropState = dragDropState,
+                contentPadding = PaddingValues(
+                    bottom = padding.calculateBottomPadding(),
+                    top = OtpCodeItemVerticalSpacing,
+                )
             )
         }
     }

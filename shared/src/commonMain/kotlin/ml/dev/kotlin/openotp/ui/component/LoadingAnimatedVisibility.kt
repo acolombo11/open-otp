@@ -25,35 +25,25 @@ internal fun LoadingAnimatedVisibility(
     content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        content = content,
+    )
+    AnimatedVisibility(
+        modifier = Modifier.fillMaxSize(),
+        visible = !visibleContent,
+        enter = fadeIn(),
+        exit = fadeOut(),
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            content = content,
-        )
-        AnimatedVisibility(
-            modifier = Modifier.fillMaxSize(),
-            visible = !visibleContent,
-            enter = fadeIn(),
-            exit = fadeOut()
+        Column(
+            horizontalAlignment = loadingHorizontalAlignment,
+            verticalArrangement = loadingVerticalArrangement,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
         ) {
-            Column(
-                horizontalAlignment = loadingHorizontalAlignment,
-                verticalArrangement = loadingVerticalArrangement,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
-            ) {
-                if (precedingContent != null) {
-                    precedingContent()
-                }
-                if (centerContent != null) {
-                    centerContent()
-                }
-                if (followingContent != null) {
-                    followingContent()
-                }
-            }
+            if (precedingContent != null) precedingContent()
+            if (centerContent != null) centerContent()
+            if (followingContent != null) followingContent()
         }
     }
 }

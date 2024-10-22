@@ -4,6 +4,8 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.*
@@ -64,6 +66,8 @@ internal fun <T : Any> DragDropList(
     showHeaders: Boolean,
     dragDropState: DragDropState,
     headerColor: Color = MaterialTheme.colorScheme.background,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     itemContent: @Composable LazyItemScope.(item: T, modifier: Modifier) -> Unit,
 ) {
     var overscrollJob by remember { mutableStateOf<Job?>(null) }
@@ -106,6 +110,8 @@ internal fun <T : Any> DragDropList(
             else -> modifier
         },
         state = dragDropState.listState,
+        contentPadding = contentPadding,
+        verticalArrangement = verticalArrangement,
     ) {
         when {
             showHeaders && items is DragDropListData.Grouped -> items.groups.forEach { group ->
@@ -118,11 +124,7 @@ internal fun <T : Any> DragDropList(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(headerColor)
-                            .padding(
-                                bottom = 12.dp,
-                                start = 12.dp,
-                                end = 12.dp,
-                            )
+                            .padding(horizontal = OtpCodeItemHorizontalSpacing)
                     )
                 }
                 itemsIndexed(
