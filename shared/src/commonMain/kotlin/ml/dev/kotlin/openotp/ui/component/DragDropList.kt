@@ -85,17 +85,18 @@ internal fun <T : Any> DragDropList(
                             if (overscrollJob?.isActive == true)
                                 return@detectDragGesturesAfterLongPress
 
-                            when (val overscroll = dragDropState.findOverScroll()) {
-                                null -> overscrollJob?.cancel()
-                                else -> overscrollJob = scope.launch {
+                            dragDropState.findOverScroll()?.let { overscroll ->
+                                overscrollJob = scope.launch {
                                     dragDropState.listState.animateScrollBy(
                                         value = overscroll * 1.3f,
                                         animationSpec = tween(easing = FastOutLinearInEasing),
                                     )
                                 }
-                            }
+                            } ?: overscrollJob?.cancel()
                         },
-                        onDragStart = dragDropState::onDragStart,
+                        onDragStart = {
+                            dragDropState.onDragStart(it.copy(y = it.y - contentPadding.calculateTopPadding().toPx()))
+                        },
                         onDragEnd = {
                             dragDropState.onDragInterrupted()
                             overscrollJob?.cancel()
@@ -192,7 +193,7 @@ private fun LazyItemScope.DraggableItem(
             .zIndex(1f)
             .graphicsLayer { translationY = current }
 
-        dragDropState.preciousDraggedItemIndex -> Modifier
+        dragDropState.previousDraggedItemIndex -> Modifier
             .zIndex(1f)
             .graphicsLayer { translationY = previous }
 
@@ -212,7 +213,7 @@ internal class DragDropState(
 
     private var draggingItemInitialOffset by mutableStateOf(0)
 
-    var preciousDraggedItemIndex: Int? by mutableStateOf(null)
+    var previousDraggedItemIndex: Int? by mutableStateOf(null)
         private set
 
     val previousItemOffset: Animatable<Float, AnimationVector1D> = Animatable(0f)
@@ -242,13 +243,13 @@ internal class DragDropState(
     fun onDragInterrupted() {
         val currentIndexOfDraggedItem = this.currentDraggedItemIndex
         if (currentIndexOfDraggedItem != null) {
-            preciousDraggedItemIndex = currentIndexOfDraggedItem
+            previousDraggedItemIndex = currentIndexOfDraggedItem
             scope.launch {
                 previousItemOffset.animateTo(
                     targetValue = 0f,
                     animationSpec = tween(easing = FastOutLinearInEasing)
                 )
-                preciousDraggedItemIndex = null
+                previousDraggedItemIndex = null
             }
         }
         this.draggingItemInitialOffset = 0
