@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.text.input.EditCommand
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.icerock.moko.resources.compose.stringResource
@@ -55,6 +56,7 @@ internal fun MainScreen(mainComponent: MainComponent) {
             isSearchActive = isSearchActive,
             syncState = syncState,
             onOtpCodeDataDismiss = mainComponent::onOtpCodeDataRemove,
+            onOtpCodeDataEdit = mainComponent::onOtpCodeDataEdit,
             onSearchBarActiveChange = mainComponent::onSearchBarActiveChange,
             onRestartCode = mainComponent::onOtpCodeDataRestart,
             onMoveCode = mainComponent::onOtpCodeDataReordered,
@@ -75,6 +77,7 @@ internal fun MainScreen(mainComponent: MainComponent) {
             isDragAndDropEnabled = isDragAndDropEnabled,
             showSortedGroupsHeaders = showSortedGroupsHeaders,
             onOtpCodeDataDismiss = mainComponent::onOtpCodeDataRemove,
+            onOtpCodeDataEdit = mainComponent::onOtpCodeDataEdit,
             onRestartCode = mainComponent::onOtpCodeDataRestart,
             copyOtpCode = mainComponent::copyOtpCode,
             dragDropState = dragDropState,
@@ -109,6 +112,7 @@ private fun AllOtpCodeItems(
     showSortedGroupsHeaders: Boolean,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     onOtpCodeDataDismiss: (OtpData) -> Boolean,
+    onOtpCodeDataEdit: (OtpData) -> Unit,
     onRestartCode: (OtpData) -> Unit,
     dragDropState: DragDropState,
     copyOtpCode: ClipboardManager.(item: OtpData, timestamp: Long) -> Unit,
@@ -141,6 +145,7 @@ private fun AllOtpCodeItems(
                     isDragAndDropEnabled = isDragAndDropEnabled,
                     showSortedGroupsHeaders = showSortedGroupsHeaders,
                     onOtpCodeDataDismiss = onOtpCodeDataDismiss,
+                    onOtpCodeDataEdit = onOtpCodeDataEdit,
                     onRestartCode = onRestartCode,
                     dragDropState = dragDropState,
                     copyOtpCode = copyOtpCode,

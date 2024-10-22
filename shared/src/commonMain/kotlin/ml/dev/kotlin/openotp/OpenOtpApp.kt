@@ -53,6 +53,7 @@ internal fun OpenOtpApp(component: OpenOtpAppComponent) {
                     is Child.AddProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent)
                     is Child.Settings -> SettingsScreen(instance.component)
                     is Child.LinkAccount -> LinkAccountScreen(instance.component)
+                    is Child.EditProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent, instance.otpType)
                 }
             }
         }

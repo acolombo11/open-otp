@@ -43,6 +43,7 @@ interface AddHotpProviderComponent : AddOtpProviderComponent {
 
 abstract class AddOtpProviderComponentImpl(
     componentContext: ComponentContext,
+    private val originalData: OtpData?,
     private val navigateOnSaveClicked: () -> Unit,
     private val navigateOnCancelClicked: () -> Unit,
 ) : AbstractBackupComponent(componentContext), AddOtpProviderComponent {
@@ -54,23 +55,33 @@ abstract class AddOtpProviderComponentImpl(
     protected fun notifyInvalidSecret() =
         notifyInvalid(fieldName = stringResource(OpenOtpResources.strings.secret_field))
 
-    override fun onSaveClicked() {
-        navigateOnSaveClicked()
-    }
-
     override fun onCancelClicked() {
         navigateOnCancelClicked()
+    }
+
+    protected fun update(codeData: OtpData) {
+        _userOtpCodeData
+            .updateInScope { list ->
+                originalData?.let { old ->
+                    list.map { if (it == old ) codeData else it }
+                } ?: (list + codeData)
+            }
+            .invokeOnCompletion {
+                navigateOnSaveClicked()
+            }
     }
 }
 
 class AddTotpProviderComponentImpl(
     componentContext: ComponentContext,
+    originalData: OtpData? = null,
     navigateOnSaveClicked: () -> Unit,
     navigateOnCancelClicked: () -> Unit,
 ) : AddOtpProviderComponentImpl(
     componentContext = componentContext,
     navigateOnSaveClicked = navigateOnSaveClicked,
     navigateOnCancelClicked = navigateOnCancelClicked,
+    originalData = originalData,
 ), AddTotpProviderComponent {
 
     private data class TotpModel(
@@ -132,22 +143,20 @@ class AddTotpProviderComponentImpl(
 
         val config = TotpConfig(period, digits, algorithm)
         val codeData = TotpData(issuer, accountName, secret, config)
-        _userOtpCodeData
-            .updateInScope { it + codeData }
-            .invokeOnCompletion {
-                super.onSaveClicked()
-            }
+        update(codeData)
     }
 }
 
 class AddHotpProviderComponentImpl(
     componentContext: ComponentContext,
+    originalData: OtpData? = null,
     navigateOnSaveClicked: () -> Unit,
     navigateOnCancelClicked: () -> Unit,
 ) : AddOtpProviderComponentImpl(
     componentContext = componentContext,
     navigateOnSaveClicked = navigateOnSaveClicked,
     navigateOnCancelClicked = navigateOnCancelClicked,
+    originalData = originalData,
 ), AddHotpProviderComponent {
 
     private data class HotpModel(
@@ -226,11 +235,7 @@ class AddHotpProviderComponentImpl(
 
         val config = HotpConfig(digits, algorithm)
         val codeData = HotpData(issuer, accountName, secret, counter, config)
-        _userOtpCodeData
-            .updateInScope { it + codeData }
-            .invokeOnCompletion {
-                super.onSaveClicked()
-            }
+        update(codeData)
     }
 
     private fun notifyInvalidCounter() =

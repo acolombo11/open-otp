@@ -43,8 +43,8 @@ data class HotpData(
     override val issuer: String?,
     override val accountName: String?,
     override val secret: String,
-    private val counter: Long,
-    private val config: HotpConfig,
+    internal val counter: Long,
+    internal val config: HotpConfig,
     override val uuid: String,
 ) : OtpData() {
     @Transient
@@ -74,7 +74,7 @@ data class TotpData(
     override val issuer: String?,
     override val accountName: String?,
     override val secret: String,
-    private val config: TotpConfig,
+    internal val config: TotpConfig,
     override val uuid: String,
 ) : OtpData() {
     @Transient

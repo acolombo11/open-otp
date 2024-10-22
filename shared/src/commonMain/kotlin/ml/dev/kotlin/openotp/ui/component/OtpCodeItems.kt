@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cached
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -52,6 +53,7 @@ internal fun OtpCodeItems(
     isDragAndDropEnabled: Boolean,
     showSortedGroupsHeaders: Boolean,
     onOtpCodeDataDismiss: (OtpData) -> Boolean,
+    onOtpCodeDataEdit: (OtpData) -> Unit,
     onRestartCode: (OtpData) -> Unit,
     dragDropState: DragDropState,
     contentPadding: PaddingValues,
@@ -75,7 +77,9 @@ internal fun OtpCodeItems(
         val dismissState = rememberDismissState(
             confirmStateChange = {
                 when (it) {
-                    DismissedToEnd -> true.also { localClipboardManager.copyOtpCode(currentItem, currentTimestamp) }
+                    DismissedToEnd -> true.also {
+                        onOtpCodeDataEdit(currentItem)
+                    }
                     DismissedToStart -> when (confirmCodeDismiss) {
                         true -> true.also { dismissedCode = currentItem }
                         false -> onOtpCodeDataDismiss(currentItem)
@@ -297,7 +301,7 @@ private fun DismissBackground(dismissState: DismissState) {
     val color by animateColorAsState(
         when (dismissState.targetValue) {
             Default -> MaterialTheme.colorScheme.surface
-            DismissedToEnd -> MaterialTheme.colorScheme.secondaryContainer
+            DismissedToEnd -> MaterialTheme.colorScheme.tertiaryContainer
             DismissedToStart -> MaterialTheme.colorScheme.errorContainer
         }
     )
@@ -306,11 +310,11 @@ private fun DismissBackground(dismissState: DismissState) {
         EndToStart -> Alignment.CenterEnd
     }
     val icon = when (direction) {
-        StartToEnd -> Icons.Default.ContentCopy
+        StartToEnd -> Icons.Default.Edit
         EndToStart -> Icons.Default.Delete
     }
     val contentDescription = when (direction) {
-        StartToEnd -> stringResource(OpenOtpResources.strings.copy_icon_name)
+        StartToEnd -> stringResource(OpenOtpResources.strings.edit_icon_name)
         EndToStart -> stringResource(OpenOtpResources.strings.delete_icon_name)
     }
     val scale by animateFloatAsState(

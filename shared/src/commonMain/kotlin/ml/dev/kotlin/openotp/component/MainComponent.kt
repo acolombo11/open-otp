@@ -40,6 +40,8 @@ interface MainComponent {
 
     fun onOtpCodeDataRemove(otpData: OtpData): Boolean
 
+    fun onOtpCodeDataEdit(otpData: OtpData)
+
     fun onOtpCodeDataReordered(currentIndex: Int, updatedIndex: Int)
 
     fun onOtpCodeDataRestart(otpData: OtpData)
@@ -61,6 +63,7 @@ class MainComponentImpl(
     componentContext: ComponentContext,
     private val navigateOnScanQRCode: () -> Unit,
     private val navigateOnAddProvider: () -> Unit,
+    private val navigateToEditProvider: (OtpData) -> Unit,
     private val navigateSettings: () -> Unit,
     private val updateTimeDelay: Duration = 10.milliseconds,
 ) : AbstractBackupComponent(componentContext), MainComponent {
@@ -143,6 +146,10 @@ class MainComponentImpl(
                 refreshBackup(download = false)
             }
         return true
+    }
+
+    override fun onOtpCodeDataEdit(otpData: OtpData) {
+        navigateToEditProvider(otpData)
     }
 
     override fun onOtpCodeDataReordered(currentIndex: Int, updatedIndex: Int) {

@@ -20,6 +20,7 @@ import ml.dev.kotlin.openotp.component.AddHotpProviderComponent
 import ml.dev.kotlin.openotp.component.AddOtpProviderComponent
 import ml.dev.kotlin.openotp.component.AddTotpProviderComponent
 import ml.dev.kotlin.openotp.otp.HmacAlgorithm
+import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.otp.OtpDigits
 import ml.dev.kotlin.openotp.otp.OtpType
 import ml.dev.kotlin.openotp.otp.OtpType.HOTP
@@ -32,6 +33,7 @@ import ml.dev.kotlin.openotp.ui.component.*
 internal fun AddProviderScreen(
     totpComponent: AddTotpProviderComponent,
     hotpComponent: AddHotpProviderComponent,
+    otpType: OtpType = OtpType.entries.first(),
 ) {
     SnackScaffold { padding ->
         Column(
@@ -39,7 +41,7 @@ internal fun AddProviderScreen(
                 .fillMaxWidth()
                 .padding(top = padding.calculateTopPadding()),
         ) {
-            var selected by remember { mutableStateOf(OtpType.entries.first()) }
+            var selected by remember { mutableStateOf(otpType) }
             TabRow(selectedTabIndex = selected.ordinal) {
                 OtpType.entries.forEach { type ->
                     Tab(

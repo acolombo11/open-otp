@@ -8,6 +8,10 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import ml.dev.kotlin.openotp.USER_PREFERENCES_MODULE_QUALIFIER
 import ml.dev.kotlin.openotp.component.OpenOtpAppComponent.Child
+import ml.dev.kotlin.openotp.otp.HotpData
+import ml.dev.kotlin.openotp.otp.OtpData
+import ml.dev.kotlin.openotp.otp.OtpType
+import ml.dev.kotlin.openotp.otp.TotpData
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.util.BiometryAuthenticator
 import ml.dev.kotlin.openotp.util.StateFlowSettings
@@ -34,6 +38,11 @@ interface OpenOtpAppComponent {
 
         class Settings(val component: SettingsComponent) : Child(true)
         class LinkAccount(val component: LinkAccountComponent) : Child(true)
+        class EditProvider(
+            val totpComponent: AddTotpProviderComponent,
+            val hotpComponent: AddHotpProviderComponent,
+            val otpType: OtpType,
+        ) : Child()
     }
 }
 
@@ -75,7 +84,8 @@ class OpenOtpAppComponentImpl(
                 componentContext = childComponentContext,
                 navigateOnScanQRCode = { navigation.push(Config.ScanQRCode) },
                 navigateOnAddProvider = { navigation.push(Config.AddProvider) },
-                navigateSettings = { navigation.push(Config.Settings) }
+                navigateToEditProvider = { navigation.push(Config.EditProvider(it)) },
+                navigateSettings = { navigation.push(Config.Settings) },
             )
         )
 
@@ -116,6 +126,43 @@ class OpenOtpAppComponentImpl(
                 navigateOnCancel = navigation::pop,
             )
         )
+
+        is Config.EditProvider -> Child.EditProvider(
+            totpComponent = AddTotpProviderComponentImpl(
+                componentContext = childComponentContext,
+                originalData = config.otpData,
+                navigateOnSaveClicked = navigation::pop,
+                navigateOnCancelClicked = navigation::pop,
+            ).apply {
+                (config.otpData as? TotpData)?.run {
+                    onIssuerChanged(issuer.orEmpty())
+                    onAccountNameChanged(accountName.orEmpty())
+                    onSecretChanged(secret)
+                    onAlgorithmSelected(this.config.hmacAlgorithm)
+                    onDigitsSelected(this.config.codeDigits)
+                    onPeriodSelected(this.config.period)
+                }
+            },
+            hotpComponent = AddHotpProviderComponentImpl(
+                componentContext = childComponentContext,
+                originalData = config.otpData,
+                navigateOnSaveClicked = navigation::pop,
+                navigateOnCancelClicked = navigation::pop,
+            ).apply {
+                (config.otpData as? HotpData)?.run {
+                    onIssuerChanged(issuer.orEmpty())
+                    onAccountNameChanged(accountName.orEmpty())
+                    onSecretChanged(secret)
+                    onAlgorithmSelected(this.config.hmacAlgorithm)
+                    onDigitsSelected(this.config.codeDigits)
+                    onCounterChanged(this.counter.toString())
+                }
+            },
+            otpType = when (config.otpData) {
+                is TotpData -> OtpType.TOTP
+                is HotpData -> OtpType.HOTP
+            },
+        )
     }
 
     override fun onAuthenticate() {
@@ -149,6 +196,9 @@ class OpenOtpAppComponentImpl(
 
         @Serializable
         data class LinkAccount(val accountType: UserLinkedAccountType) : Config
+
+        @Serializable
+        data class EditProvider(val otpData: OtpData) : Config
     }
 }
 
