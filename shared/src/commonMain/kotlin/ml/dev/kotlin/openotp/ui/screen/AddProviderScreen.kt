@@ -20,7 +20,6 @@ import ml.dev.kotlin.openotp.component.AddHotpProviderComponent
 import ml.dev.kotlin.openotp.component.AddOtpProviderComponent
 import ml.dev.kotlin.openotp.component.AddTotpProviderComponent
 import ml.dev.kotlin.openotp.otp.HmacAlgorithm
-import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.otp.OtpDigits
 import ml.dev.kotlin.openotp.otp.OtpType
 import ml.dev.kotlin.openotp.otp.OtpType.HOTP
@@ -35,61 +34,59 @@ internal fun AddProviderScreen(
     hotpComponent: AddHotpProviderComponent,
     otpType: OtpType = OtpType.entries.first(),
 ) {
-    SnackScaffold {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .windowInsetsPadding(WindowInsets.statusBars),
-        ) {
-            var selected by remember { mutableStateOf(otpType) }
-            TabRow(selectedTabIndex = selected.ordinal) {
-                OtpType.entries.forEach { type ->
-                    Tab(
-                        text = { Text(type.presentableName()) },
-                        selected = type == selected,
-                        onClick = { selected = type },
-                        icon = {
-                            when (type) {
-                                TOTP -> Icon(
-                                    imageVector = Icons.Default.Update,
-                                    contentDescription = type.presentableName()
-                                )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.statusBars),
+    ) {
+        var selected by remember { mutableStateOf(otpType) }
+        TabRow(selectedTabIndex = selected.ordinal) {
+            OtpType.entries.forEach { type ->
+                Tab(
+                    text = { Text(type.presentableName()) },
+                    selected = type == selected,
+                    onClick = { selected = type },
+                    icon = {
+                        when (type) {
+                            TOTP -> Icon(
+                                imageVector = Icons.Default.Update,
+                                contentDescription = type.presentableName()
+                            )
 
-                                HOTP -> Icon(
-                                    imageVector = Icons.Default.Pin,
-                                    contentDescription = type.presentableName()
-                                )
-                            }
+                            HOTP -> Icon(
+                                imageVector = Icons.Default.Pin,
+                                contentDescription = type.presentableName()
+                            )
                         }
-                    )
-                }
-            }
-            BoxWithConstraints {
-                val totpOffset by animateDpAsState(
-                    targetValue = when (selected) {
-                        TOTP -> 0.dp
-                        HOTP -> -maxWidth
-                    }
-                )
-                val hotpOffset by animateDpAsState(
-                    targetValue = when (selected) {
-                        TOTP -> maxWidth
-                        HOTP -> 0.dp
-                    }
-                )
-                Box(modifier = Modifier.offset(x = totpOffset)) {
-                    AddTotpProviderScreen(totpComponent)
-                }
-                Box(modifier = Modifier.offset(x = hotpOffset)) {
-                    AddHotpProviderScreen(hotpComponent)
-                }
-                AddProviderFormConfirmButtons(
-                    component = when (selected) {
-                        TOTP -> totpComponent
-                        HOTP -> hotpComponent
                     }
                 )
             }
+        }
+        BoxWithConstraints {
+            val totpOffset by animateDpAsState(
+                targetValue = when (selected) {
+                    TOTP -> 0.dp
+                    HOTP -> -maxWidth
+                }
+            )
+            val hotpOffset by animateDpAsState(
+                targetValue = when (selected) {
+                    TOTP -> maxWidth
+                    HOTP -> 0.dp
+                }
+            )
+            Box(modifier = Modifier.offset(x = totpOffset)) {
+                AddTotpProviderScreen(totpComponent)
+            }
+            Box(modifier = Modifier.offset(x = hotpOffset)) {
+                AddHotpProviderScreen(hotpComponent)
+            }
+            AddProviderFormConfirmButtons(
+                component = when (selected) {
+                    TOTP -> totpComponent
+                    HOTP -> hotpComponent
+                }
+            )
         }
     }
 }

@@ -27,22 +27,17 @@ import ml.dev.kotlin.openotp.shared.OpenOtpResources
 import ml.dev.kotlin.openotp.ui.component.NamedBox
 import ml.dev.kotlin.openotp.ui.component.NamedDropdownMenu
 import ml.dev.kotlin.openotp.ui.component.NamedSwitch
-import ml.dev.kotlin.openotp.ui.component.SnackScaffold
 import ml.dev.kotlin.openotp.ui.component.TopBar
 
 @Composable
 internal fun SettingsScreen(component: SettingsComponent) {
-    SnackScaffold(
-        topBar = {
-            TopBar(
-                text = stringResource(OpenOtpResources.strings.settings_screen_name),
-                onIconClick = component::onExitSettings,
-            )
-        },
-    ) {
+    Column {
+        TopBar(
+            text = stringResource(OpenOtpResources.strings.settings_screen_name),
+            onIconClick = component::onExitSettings,
+        )
         Column(
             modifier = Modifier
-                .windowInsetsPadding(WindowInsets.statusBars)
                 .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(12.dp),

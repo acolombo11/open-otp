@@ -31,71 +31,69 @@ import ml.dev.kotlin.openotp.ui.component.*
 
 @Composable
 internal fun MainScreen(mainComponent: MainComponent) {
-    SnackScaffold {
-        val cameraPermissionState = rememberCameraPermissionState()
-        val navigateToScanQRCodeWhenCameraPermissionChanged by mainComponent.navigateToScanQRCodeWhenCameraPermissionChanged.subscribeAsState()
+    val cameraPermissionState = rememberCameraPermissionState()
+    val navigateToScanQRCodeWhenCameraPermissionChanged by mainComponent.navigateToScanQRCodeWhenCameraPermissionChanged.subscribeAsState()
 
-        val isGranted = cameraPermissionState.permission.isGranted
-        LaunchedEffect(isGranted) {
-            if (isGranted && navigateToScanQRCodeWhenCameraPermissionChanged) {
-                mainComponent.onScanQRCodeClick()
-            }
+    val isGranted = cameraPermissionState.permission.isGranted
+    LaunchedEffect(isGranted) {
+        if (isGranted && navigateToScanQRCodeWhenCameraPermissionChanged) {
+            mainComponent.onScanQRCodeClick()
         }
-
-        val codeData by mainComponent.codeData.subscribeAsState()
-        val timestamp by mainComponent.timestamp.subscribeAsState()
-        val confirmOtpDataDelete by mainComponent.confirmOtpDataDelete.subscribeAsState()
-        val isSearchActive by mainComponent.isSearchActive.subscribeAsState()
-        val syncState by mainComponent.linkedAccountsSyncState.subscribeAsState()
-        FilteredOtpCodeItems(
-            codeData = codeData,
-            timestamp = timestamp,
-            confirmCodeDismiss = confirmOtpDataDelete,
-            isSearchActive = isSearchActive,
-            syncState = syncState,
-            onOtpCodeDataDismiss = mainComponent::onOtpCodeDataRemove,
-            onOtpCodeDataEdit = mainComponent::onOtpCodeDataEdit,
-            onSearchBarActiveChange = mainComponent::onSearchBarActiveChange,
-            onRestartCode = mainComponent::onOtpCodeDataRestart,
-            onMoveCode = mainComponent::onOtpCodeDataReordered,
-            copyOtpCode = mainComponent::copyOtpCode,
-            onSettingsIconClick = mainComponent::onSettingsClick,
-            onCloudBackupClick = mainComponent::onRefresh
-        )
-
-        val listState = rememberLazyListState()
-        val dragDropState = rememberDragDropState(listState, mainComponent::onOtpCodeDataReordered)
-        val isDragAndDropEnabled by mainComponent.isDragAndDropEnabled.subscribeAsState()
-        val showSortedGroupsHeaders by mainComponent.showSortedGroupsHeaders.subscribeAsState()
-        AllOtpCodeItems(
-            codeData = codeData,
-            timestamp = timestamp,
-            confirmCodeDismiss = confirmOtpDataDelete,
-            isDragAndDropEnabled = isDragAndDropEnabled,
-            showSortedGroupsHeaders = showSortedGroupsHeaders,
-            onOtpCodeDataDismiss = mainComponent::onOtpCodeDataRemove,
-            onOtpCodeDataEdit = mainComponent::onOtpCodeDataEdit,
-            onRestartCode = mainComponent::onOtpCodeDataRestart,
-            copyOtpCode = mainComponent::copyOtpCode,
-            dragDropState = dragDropState,
-            syncState = syncState,
-            onRefresh = mainComponent::onRefresh,
-        )
-        AddActionButton(
-            dragDropState = dragDropState,
-            visible = !isSearchActive,
-            onScanQRCodeClick = {
-                when (cameraPermissionState.permission) {
-                    Granted -> mainComponent.onScanQRCodeClick()
-                    Denied -> {
-                        mainComponent.onRequestedCameraPermission()
-                        cameraPermissionState.launchRequest()
-                    }
-                }
-            }.takeIf { cameraPermissionState.isAvailable },
-            onAddWithTextClick = mainComponent::onAddProviderClick,
-        )
     }
+
+    val codeData by mainComponent.codeData.subscribeAsState()
+    val timestamp by mainComponent.timestamp.subscribeAsState()
+    val confirmOtpDataDelete by mainComponent.confirmOtpDataDelete.subscribeAsState()
+    val isSearchActive by mainComponent.isSearchActive.subscribeAsState()
+    val syncState by mainComponent.linkedAccountsSyncState.subscribeAsState()
+    FilteredOtpCodeItems(
+        codeData = codeData,
+        timestamp = timestamp,
+        confirmCodeDismiss = confirmOtpDataDelete,
+        isSearchActive = isSearchActive,
+        syncState = syncState,
+        onOtpCodeDataDismiss = mainComponent::onOtpCodeDataRemove,
+        onOtpCodeDataEdit = mainComponent::onOtpCodeDataEdit,
+        onSearchBarActiveChange = mainComponent::onSearchBarActiveChange,
+        onRestartCode = mainComponent::onOtpCodeDataRestart,
+        onMoveCode = mainComponent::onOtpCodeDataReordered,
+        copyOtpCode = mainComponent::copyOtpCode,
+        onSettingsIconClick = mainComponent::onSettingsClick,
+        onCloudBackupClick = mainComponent::onRefresh
+    )
+
+    val listState = rememberLazyListState()
+    val dragDropState = rememberDragDropState(listState, mainComponent::onOtpCodeDataReordered)
+    val isDragAndDropEnabled by mainComponent.isDragAndDropEnabled.subscribeAsState()
+    val showSortedGroupsHeaders by mainComponent.showSortedGroupsHeaders.subscribeAsState()
+    AllOtpCodeItems(
+        codeData = codeData,
+        timestamp = timestamp,
+        confirmCodeDismiss = confirmOtpDataDelete,
+        isDragAndDropEnabled = isDragAndDropEnabled,
+        showSortedGroupsHeaders = showSortedGroupsHeaders,
+        onOtpCodeDataDismiss = mainComponent::onOtpCodeDataRemove,
+        onOtpCodeDataEdit = mainComponent::onOtpCodeDataEdit,
+        onRestartCode = mainComponent::onOtpCodeDataRestart,
+        copyOtpCode = mainComponent::copyOtpCode,
+        dragDropState = dragDropState,
+        syncState = syncState,
+        onRefresh = mainComponent::onRefresh,
+    )
+    AddActionButton(
+        dragDropState = dragDropState,
+        visible = !isSearchActive,
+        onScanQRCodeClick = {
+            when (cameraPermissionState.permission) {
+                Granted -> mainComponent.onScanQRCodeClick()
+                Denied -> {
+                    mainComponent.onRequestedCameraPermission()
+                    cameraPermissionState.launchRequest()
+                }
+            }
+        }.takeIf { cameraPermissionState.isAvailable },
+        onAddWithTextClick = mainComponent::onAddProviderClick,
+    )
 }
 
 @Composable

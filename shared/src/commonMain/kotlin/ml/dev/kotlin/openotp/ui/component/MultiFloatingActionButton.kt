@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun <Id> MultiFloatingActionButton(
-    modifier: Modifier = Modifier,
     items: List<MultiFabItem<Id>>,
     fabIcon: FabIcon,
     expanded: Boolean,
@@ -35,7 +34,7 @@ internal fun <Id> MultiFloatingActionButton(
         if (fabState.value.isExpanded()) fabIcon.iconRotate ?: 0f else 0f
     )
     Box(
-        modifier = modifier.wrapContentSize(),
+        modifier = Modifier.wrapContentSize(),
         contentAlignment = Alignment.BottomEnd,
     ) {
         items.asReversed().forEachIndexed { index, item ->

@@ -1,6 +1,8 @@
 package ml.dev.kotlin.openotp
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,13 +49,17 @@ internal fun OpenOtpApp(component: OpenOtpAppComponent) {
                 modifier = Modifier.fillMaxSize(),
                 animation = stackAnimation(slide())
             ) { child ->
-                when (val instance = child.instance) {
-                    is Child.Main -> MainScreen(instance.component)
-                    is Child.ScanQRCode -> ScanQRCodeScreen(instance.component)
-                    is Child.AddProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent)
-                    is Child.Settings -> SettingsScreen(instance.component)
-                    is Child.LinkAccount -> LinkAccountScreen(instance.component)
-                    is Child.EditProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent, instance.otpType)
+                Scaffold(
+                    snackbarHost = { SnackbarHost(koinInject<SnackbarHostState>()) },
+                ) {
+                    when (val instance = child.instance) {
+                        is Child.Main -> MainScreen(instance.component)
+                        is Child.ScanQRCode -> ScanQRCodeScreen(instance.component)
+                        is Child.AddProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent)
+                        is Child.Settings -> SettingsScreen(instance.component)
+                        is Child.LinkAccount -> LinkAccountScreen(instance.component)
+                        is Child.EditProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent, instance.otpType)
+                    }
                 }
             }
         }
