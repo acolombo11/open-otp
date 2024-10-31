@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ClipboardManager
-import androidx.compose.ui.text.input.EditCommand
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.icerock.moko.resources.compose.stringResource
@@ -32,7 +31,7 @@ import ml.dev.kotlin.openotp.ui.component.*
 
 @Composable
 internal fun MainScreen(mainComponent: MainComponent) {
-    SnackScaffold { padding ->
+    SnackScaffold {
         val cameraPermissionState = rememberCameraPermissionState()
         val navigateToScanQRCodeWhenCameraPermissionChanged by mainComponent.navigateToScanQRCodeWhenCameraPermissionChanged.subscribeAsState()
 
@@ -49,7 +48,6 @@ internal fun MainScreen(mainComponent: MainComponent) {
         val isSearchActive by mainComponent.isSearchActive.subscribeAsState()
         val syncState by mainComponent.linkedAccountsSyncState.subscribeAsState()
         FilteredOtpCodeItems(
-            padding = padding,
             codeData = codeData,
             timestamp = timestamp,
             confirmCodeDismiss = confirmOtpDataDelete,
@@ -70,7 +68,6 @@ internal fun MainScreen(mainComponent: MainComponent) {
         val isDragAndDropEnabled by mainComponent.isDragAndDropEnabled.subscribeAsState()
         val showSortedGroupsHeaders by mainComponent.showSortedGroupsHeaders.subscribeAsState()
         AllOtpCodeItems(
-            padding = padding,
             codeData = codeData,
             timestamp = timestamp,
             confirmCodeDismiss = confirmOtpDataDelete,
@@ -85,7 +82,6 @@ internal fun MainScreen(mainComponent: MainComponent) {
             onRefresh = mainComponent::onRefresh,
         )
         AddActionButton(
-            modifier = Modifier.padding(padding),
             dragDropState = dragDropState,
             visible = !isSearchActive,
             onScanQRCodeClick = {
@@ -104,7 +100,6 @@ internal fun MainScreen(mainComponent: MainComponent) {
 
 @Composable
 private fun AllOtpCodeItems(
-    padding: PaddingValues,
     codeData: PresentedOtpCodeData,
     timestamp: Long,
     confirmCodeDismiss: Boolean,
@@ -119,7 +114,8 @@ private fun AllOtpCodeItems(
     syncState: LinkedAccountsSyncState,
     onRefresh: () -> Unit,
 ) {
-    val state = rememberPullRefreshState(syncState.isRefreshing, onRefresh, refreshingOffset = 68.dp)
+    val state =
+        rememberPullRefreshState(syncState.isRefreshing, onRefresh, refreshingOffset = 68.dp)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -127,18 +123,22 @@ private fun AllOtpCodeItems(
             .run { if (syncState.isSyncAvailable) pullRefresh(state) else this },
         contentAlignment = Alignment.TopCenter,
     ) {
-        val paddingTop = padding.calculateTopPadding() + SearchBarVerticalPadding
         Box(
             modifier = Modifier
-                .padding(top = paddingTop)
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .padding(top = SearchBarVerticalPadding)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
             val contentPaddingTop = SearchBarStandardHeight + SearchBarVerticalPadding
-            val bottom = padding.calculateBottomPadding() + MultiFabStandardHeight + OtpCodeItemVerticalSpacing
+            val contentPaddingBottom = MultiFabStandardHeight + OtpCodeItemVerticalSpacing +
+                    WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
             if (!codeData.isEmpty) {
                 OtpCodeItems(
-                    contentPadding = PaddingValues(top = contentPaddingTop, bottom = bottom),
+                    contentPadding = PaddingValues(
+                        top = contentPaddingTop,
+                        bottom = contentPaddingBottom
+                    ),
                     codeData = codeData,
                     timestamp = timestamp,
                     confirmCodeDismiss = confirmCodeDismiss,
@@ -152,14 +152,18 @@ private fun AllOtpCodeItems(
                 )
             } else {
                 Text(
-                    modifier = Modifier.padding(top = contentPaddingTop, bottom = bottom),
+                    modifier = Modifier.padding(
+                        top = contentPaddingTop,
+                        bottom = contentPaddingBottom
+                    ),
                     text = stringResource(OpenOtpResources.strings.add_new_keys),
                 )
             }
         }
         Column(
             modifier = Modifier
-                .padding(top = paddingTop)
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .padding(top = SearchBarVerticalPadding)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -176,7 +180,7 @@ private fun AllOtpCodeItems(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(padding.calculateBottomPadding())
+                    .windowInsetsTopHeight(WindowInsets.statusBars)
                     .background(
                         Brush.verticalGradient(
                             listOf(Color.Transparent, backgroundColor)

@@ -36,7 +36,7 @@ internal fun ScanQRCodeScreen(
     scanQRCodeComponent: ScanQRCodeComponent,
     holePercent: Float = 0.75f,
 ) {
-    SnackScaffold { padding ->
+    SnackScaffold {
         var isLoading by remember { mutableStateOf(true) }
 
         LoadingAnimatedVisibility(
@@ -51,7 +51,7 @@ internal fun ScanQRCodeScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(padding),
+                            .windowInsetsPadding(WindowInsets.systemBars),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(

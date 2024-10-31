@@ -36,13 +36,13 @@ internal fun LinkAccountScreen(
                 onIconClick = component::onCancel,
             )
         },
-    ) { padding ->
+    ) {
         val shouldEnterCode by component.shouldEnterCode.subscribeAsState()
         val uriHandler = LocalUriHandler.current
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .windowInsetsPadding(WindowInsets.systemBars)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),

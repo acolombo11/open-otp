@@ -35,11 +35,11 @@ internal fun AddProviderScreen(
     hotpComponent: AddHotpProviderComponent,
     otpType: OtpType = OtpType.entries.first(),
 ) {
-    SnackScaffold { padding ->
+    SnackScaffold {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = padding.calculateTopPadding()),
+                .windowInsetsPadding(WindowInsets.statusBars),
         ) {
             var selected by remember { mutableStateOf(otpType) }
             TabRow(selectedTabIndex = selected.ordinal) {
@@ -78,13 +78,12 @@ internal fun AddProviderScreen(
                     }
                 )
                 Box(modifier = Modifier.offset(x = totpOffset)) {
-                    AddTotpProviderScreen(totpComponent, padding)
+                    AddTotpProviderScreen(totpComponent)
                 }
                 Box(modifier = Modifier.offset(x = hotpOffset)) {
-                    AddHotpProviderScreen(hotpComponent, padding)
+                    AddHotpProviderScreen(hotpComponent)
                 }
                 AddProviderFormConfirmButtons(
-                    paddingValues = padding,
                     component = when (selected) {
                         TOTP -> totpComponent
                         HOTP -> hotpComponent
@@ -96,17 +95,17 @@ internal fun AddProviderScreen(
 }
 
 @Composable
-private fun AddProviderFormConfirmButtons(component: AddOtpProviderComponent, paddingValues: PaddingValues) {
+private fun AddProviderFormConfirmButtons(component: AddOtpProviderComponent) {
     SaveCancelFormConfirmButtons(
-        modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
+        modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars),
         onSaveClicked = component::onSaveClicked,
         onCancelClicked = component::onCancelClicked,
     )
 }
 
 @Composable
-private fun AddTotpProviderScreen(component: AddTotpProviderComponent, paddingValues: PaddingValues) {
-    AddOtpProviderScreen(component, paddingValues) {
+private fun AddTotpProviderScreen(component: AddTotpProviderComponent) {
+    AddOtpProviderScreen(component) {
         val selectedAlgorithm by component.algorithm.subscribeAsState()
         NamedDropdownMenu(
             name = stringResource(OpenOtpResources.strings.algorithm_field_name),
@@ -134,8 +133,8 @@ private fun AddTotpProviderScreen(component: AddTotpProviderComponent, paddingVa
 }
 
 @Composable
-private fun AddHotpProviderScreen(component: AddHotpProviderComponent, paddingValues: PaddingValues) {
-    AddOtpProviderScreen(component, paddingValues) {
+private fun AddHotpProviderScreen(component: AddHotpProviderComponent) {
+    AddOtpProviderScreen(component) {
         val counter by component.counter.subscribeAsState()
         val counterIsError by component.counterIsError.subscribeAsState()
         FormField(
@@ -167,14 +166,13 @@ private fun AddHotpProviderScreen(component: AddHotpProviderComponent, paddingVa
 @Composable
 private fun AddOtpProviderScreen(
     component: AddOtpProviderComponent,
-    paddingValues: PaddingValues,
     advancedSettingsContent: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(bottom = paddingValues.calculateBottomPadding())
+            .windowInsetsPadding(WindowInsets.navigationBars)
             .padding(18.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {

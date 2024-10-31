@@ -4,8 +4,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.EditNote
@@ -23,7 +26,6 @@ import ml.dev.kotlin.openotp.shared.OpenOtpResources
 
 @Composable
 internal fun AddActionButton(
-    modifier: Modifier = Modifier,
     dragDropState: DragDropState,
     visible: Boolean,
     onScanQRCodeClick: (() -> Unit)?,
@@ -35,8 +37,9 @@ internal fun AddActionButton(
         exit = fadeOut(),
     ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.systemBars)
                 .padding(16.dp),
             contentAlignment = Alignment.BottomEnd,
         ) {
@@ -52,6 +55,7 @@ internal fun AddActionButton(
                             val draggedItemIndex = dragDropState.currentDraggedItemIndex
                             draggedItemIndex == 0 || draggedItemIndex == 1
                         }
+
                         else -> false
                     }
                 }

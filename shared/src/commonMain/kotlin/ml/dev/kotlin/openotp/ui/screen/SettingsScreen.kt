@@ -39,10 +39,10 @@ internal fun SettingsScreen(component: SettingsComponent) {
                 onIconClick = component::onExitSettings,
             )
         },
-    ) { padding ->
+    ) {
         Column(
             modifier = Modifier
-                .padding(top = padding.calculateTopPadding())
+                .windowInsetsPadding(WindowInsets.statusBars)
                 .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -52,7 +52,7 @@ internal fun SettingsScreen(component: SettingsComponent) {
             CodesManagementSettingsGroup(component)
             SecuritySettingsGroup(component)
             CloudBackupsSettingsGroup(component)
-            Spacer(Modifier.height(padding.calculateBottomPadding()))
+            Spacer(Modifier.windowInsetsPadding(WindowInsets.navigationBars))
         }
     }
 }

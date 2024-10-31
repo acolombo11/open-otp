@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.koin.compose.koinInject
 
+// TODO Move this before navigation
 @Composable
 fun SnackScaffold(
     modifier: Modifier = Modifier,
