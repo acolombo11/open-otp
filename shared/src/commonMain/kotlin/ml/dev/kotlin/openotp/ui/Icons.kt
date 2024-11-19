@@ -14,6 +14,7 @@ val OtpData.issuerIcon: ImageVector
             OtpIcons.Adobe,
             OtpIcons.Amazon,
             OtpIcons.Autodesk,
+            OtpIcons.BambooHr,
             OtpIcons.Bitwarden,
             OtpIcons.Canada,
             OtpIcons.Carta,
