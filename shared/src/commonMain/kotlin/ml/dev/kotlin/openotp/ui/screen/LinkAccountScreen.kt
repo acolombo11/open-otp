@@ -30,61 +30,61 @@ internal fun LinkAccountScreen(
 ) {
     val shouldEnterCode by component.shouldEnterCode.subscribeAsState()
     val uriHandler = LocalUriHandler.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.systemBars)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),
-    ) {
+    Column {
         TopBar(
             text = component.accountType.name,
             onIconClick = component::onCancel,
         )
-        Icon(
-            imageVector = component.accountType.icon,
-            contentDescription = "icon",
-            modifier = Modifier.size(96.dp),
-            tint = MaterialTheme.colorScheme.secondary,
-        )
-        OutlinedButton(onClick = { component.onRequestAppPermissions(uriHandler) }) {
-            Text(stringResource(OpenOtpResources.strings.request_app_permissions))
-        }
-        AnimatedVisibility(
-            visible = shouldEnterCode,
-            enter = expandVertically(),
-            exit = shrinkVertically(),
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+            Icon(
+                imageVector = component.accountType.icon,
+                contentDescription = "icon",
+                modifier = Modifier.size(96.dp),
+                tint = MaterialTheme.colorScheme.secondary,
+            )
+            OutlinedButton(onClick = { component.onRequestAppPermissions(uriHandler) }) {
+                Text(stringResource(OpenOtpResources.strings.request_app_permissions))
+            }
+            AnimatedVisibility(
+                visible = shouldEnterCode,
+                enter = expandVertically(),
+                exit = shrinkVertically(),
             ) {
-                val code by component.code.subscribeAsState()
-                val isErrorGettingToken by component.isErrorGettingToken.subscribeAsState()
-                FormField(
-                    name = "Access code",
-                    text = code,
-                    isError = isErrorGettingToken,
-                    onTextChange = component::onUserAccessCodeChanged,
-                    buttonType = FormFieldButtonType.Done,
-                )
-                Button(
-                    onClick = { component.onUserAccessCodeConfirmed() },
-                    contentPadding = FormButtonStandardPadding,
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Link,
-                        contentDescription = "link",
-                        modifier = Modifier.rotate(-45f)
+                    val code by component.code.subscribeAsState()
+                    val isErrorGettingToken by component.isErrorGettingToken.subscribeAsState()
+                    FormField(
+                        name = "Access code",
+                        text = code,
+                        isError = isErrorGettingToken,
+                        onTextChange = component::onUserAccessCodeChanged,
+                        buttonType = FormFieldButtonType.Done,
                     )
-                    Spacer(Modifier.width(FormButtonIconSpacing))
-                    Text("Link account")
-                }
-                val isLoadingAppPermissions by component.isLoadingAppPermissions.subscribeAsState()
-                AnimatedVisibility(visible = isLoadingAppPermissions) {
-                    CircularProgressIndicator()
+                    Button(
+                        onClick = { component.onUserAccessCodeConfirmed() },
+                        contentPadding = FormButtonStandardPadding,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Link,
+                            contentDescription = "link",
+                            modifier = Modifier.rotate(-45f)
+                        )
+                        Spacer(Modifier.width(FormButtonIconSpacing))
+                        Text("Link account")
+                    }
+                    val isLoadingAppPermissions by component.isLoadingAppPermissions.subscribeAsState()
+                    AnimatedVisibility(visible = isLoadingAppPermissions) {
+                        CircularProgressIndicator()
+                    }
                 }
             }
         }
