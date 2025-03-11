@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Github: ImageVector
+public val OtpIcons.Github: ImageVector
     get() {
         if (_github != null) {
             return _github!!

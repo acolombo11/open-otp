@@ -17,12 +17,16 @@ public val OtpIcons.Paypal: ImageVector
         if (_paypal != null) {
             return _paypal!!
         }
-        _paypal = Builder(name = "Paypal", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
+        _paypal = Builder(
+            name = "Paypal", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
             group {
-                path(fill = SolidColor(Color(0xFF001C64)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFF001C64)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveTo(9.9327f, 4.8004f)
                     curveTo(9.7722f, 4.8004f, 9.6169f, 4.8592f, 9.4948f, 4.9662f)
                     curveTo(9.3727f, 5.0732f, 9.2919f, 5.2214f, 9.2668f, 5.3841f)
@@ -41,9 +45,11 @@ public val OtpIcons.Paypal: ImageVector
                     horizontalLineTo(9.9327f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF0070E0)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFF0070E0)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveTo(18.6705f, 5.5016f)
                     curveTo(18.666f, 5.7474f, 18.6451f, 5.9968f, 18.6067f, 6.2482f)
                     curveTo(18.1009f, 9.558f, 15.3313f, 12.0004f, 12.0683f, 12.0004f)
@@ -65,9 +71,11 @@ public val OtpIcons.Paypal: ImageVector
                     curveTo(21.794f, 8.6987f, 20.6415f, 6.5614f, 18.6705f, 5.5016f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF003087)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFF003087)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveTo(5.9345f, 1.0E-4f)
                     curveTo(5.7739f, 1.0E-4f, 5.6185f, 0.059f, 5.4964f, 0.166f)
                     curveTo(5.3744f, 0.2731f, 5.2936f, 0.4214f, 5.2686f, 0.5842f)
@@ -89,7 +97,7 @@ public val OtpIcons.Paypal: ImageVector
                 }
             }
         }
-        .build()
+            .build()
         return _paypal!!
     }
 

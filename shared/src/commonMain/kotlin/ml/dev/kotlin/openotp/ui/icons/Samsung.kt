@@ -16,11 +16,15 @@ public val OtpIcons.Samsung: ImageVector
         if (_samsung != null) {
             return _samsung!!
         }
-        _samsung = Builder(name = "Samsung", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _samsung = Builder(
+            name = "Samsung", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(22.7863f, 11.6145f)
                 verticalLineTo(12.1148f)
                 horizontalLineTo(23.138f)
@@ -147,7 +151,7 @@ public val OtpIcons.Samsung: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _samsung!!
     }
 

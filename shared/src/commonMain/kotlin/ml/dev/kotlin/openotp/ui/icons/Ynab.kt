@@ -17,12 +17,16 @@ public val OtpIcons.Ynab: ImageVector
         if (_ynab != null) {
             return _ynab!!
         }
-        _ynab = Builder(name = "Ynab", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
+        _ynab = Builder(
+            name = "Ynab", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
             group {
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = EvenOdd) {
+                path(
+                    fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = EvenOdd
+                ) {
                     moveTo(11.9944f, 4.503f)
                     curveTo(11.9359f, 4.503f, 11.8248f, 4.452f, 11.7103f, 4.3893f)
                     curveTo(9.3341f, 2.8895f, 11.1202f, 1.0639f, 11.8945f, 0.2725f)
@@ -214,7 +218,7 @@ public val OtpIcons.Ynab: ImageVector
                 }
             }
         }
-        .build()
+            .build()
         return _ynab!!
     }
 

@@ -17,12 +17,16 @@ public val OtpIcons.Firefox: ImageVector
         if (_firefox != null) {
             return _firefox!!
         }
-        _firefox = Builder(name = "Firefox", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
+        _firefox = Builder(
+            name = "Firefox", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
             group {
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveTo(23.1403f, 7.4739f)
                     curveTo(23.0027f, 7.1301f, 22.8497f, 6.7941f, 22.6823f, 6.4668f)
                     curveTo(22.6813f, 6.465f, 22.6804f, 6.4632f, 22.6794f, 6.4613f)
@@ -151,7 +155,7 @@ public val OtpIcons.Firefox: ImageVector
                 }
             }
         }
-        .build()
+            .build()
         return _firefox!!
     }
 

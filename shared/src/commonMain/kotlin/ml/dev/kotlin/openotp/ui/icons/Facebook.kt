@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Facebook: ImageVector
+public val OtpIcons.Facebook: ImageVector
     get() {
         if (_facebook != null) {
             return _facebook!!

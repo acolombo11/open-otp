@@ -16,11 +16,15 @@ public val OtpIcons.BambooHr: ImageVector
         if (_bamboohr != null) {
             return _bamboohr!!
         }
-        _bamboohr = Builder(name = "BambooHr", defaultWidth = 24.0.dp, defaultHeight = 25.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 25.0f).apply {
-            path(fill = SolidColor(Color(0xFF45483D)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+        _bamboohr = Builder(
+            name = "BambooHr", defaultWidth = 24.0.dp, defaultHeight = 25.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 25.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF45483D)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(17.5228f, 8.8233f)
                 curveTo(15.2099f, 8.8233f, 13.9699f, 9.6172f, 13.1004f, 10.4803f)
                 lineTo(12.8633f, 10.7291f)
@@ -54,7 +58,7 @@ public val OtpIcons.BambooHr: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _bamboohr!!
     }
 

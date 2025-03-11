@@ -16,11 +16,15 @@ public val OtpIcons.Gaijin: ImageVector
         if (_gaijin != null) {
             return _gaijin!!
         }
-        _gaijin = Builder(name = "Gaijin", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+        _gaijin = Builder(
+            name = "Gaijin", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(19.2422f, 2.0671f)
                 curveTo(19.1833f, 1.7343f, 19.5884f, 1.6009f, 19.5633f, 0.9461f)
                 curveTo(19.5299f, -0.5583f, 17.5528f, -0.2f, 18.0347f, 1.535f)
@@ -73,7 +77,7 @@ public val OtpIcons.Gaijin: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _gaijin!!
     }
 

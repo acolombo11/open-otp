@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Instagram: ImageVector
+public val OtpIcons.Instagram: ImageVector
     get() {
         if (_instagram != null) {
             return _instagram!!

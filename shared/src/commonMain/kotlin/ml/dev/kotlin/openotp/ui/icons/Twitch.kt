@@ -16,11 +16,15 @@ public val OtpIcons.Twitch: ImageVector
         if (_twitch != null) {
             return _twitch!!
         }
-        _twitch = Builder(name = "Twitch", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
-            path(fill = SolidColor(Color(0xFF6441A5)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+        _twitch = Builder(
+            name = "Twitch", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF6441A5)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(20.5728f, 12.734f)
                 lineTo(17.1434f, 16.1632f)
                 horizontalLineTo(11.7563f)
@@ -44,9 +48,11 @@ public val OtpIcons.Twitch: ImageVector
                 horizontalLineTo(2.4494f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF6441A5)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+            path(
+                fill = SolidColor(Color(0xFF6441A5)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(9.7969f, 11.7552f)
                 horizontalLineTo(11.756f)
                 verticalLineTo(5.8768f)
@@ -61,7 +67,7 @@ public val OtpIcons.Twitch: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _twitch!!
     }
 

@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Microsoft: ImageVector
+public val OtpIcons.Microsoft: ImageVector
     get() {
         if (_microsoft != null) {
             return _microsoft!!

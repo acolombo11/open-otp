@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Dropbox: ImageVector
+public val OtpIcons.Dropbox: ImageVector
     get() {
         if (_dropbox != null) {
             return _dropbox!!

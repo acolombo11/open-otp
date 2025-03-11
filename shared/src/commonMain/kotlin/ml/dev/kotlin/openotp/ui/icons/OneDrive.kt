@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.OneDrive: ImageVector
+public val OtpIcons.OneDrive: ImageVector
     get() {
         if (_onedrive != null) {
             return _onedrive!!

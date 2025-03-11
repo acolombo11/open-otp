@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.OpenOtp: ImageVector
+public val OtpIcons.OpenOtp: ImageVector
     get() {
         if (_openOtp != null) {
             return _openOtp!!

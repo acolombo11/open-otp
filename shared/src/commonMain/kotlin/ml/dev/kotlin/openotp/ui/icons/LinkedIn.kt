@@ -16,11 +16,15 @@ public val OtpIcons.LinkedIn: ImageVector
         if (_linkedin != null) {
             return _linkedin!!
         }
-        _linkedin = Builder(name = "LinkedIn", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+        _linkedin = Builder(
+            name = "LinkedIn", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(20.6667f, 20.6666f)
                 horizontalLineTo(17.1052f)
                 verticalLineTo(14.6007f)
@@ -49,7 +53,7 @@ public val OtpIcons.LinkedIn: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _linkedin!!
     }
 

@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Reddit: ImageVector
+public val OtpIcons.Reddit: ImageVector
     get() {
         if (_reddit != null) {
             return _reddit!!

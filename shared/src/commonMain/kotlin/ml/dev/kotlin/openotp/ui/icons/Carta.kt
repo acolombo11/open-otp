@@ -17,12 +17,16 @@ public val OtpIcons.Carta: ImageVector
         if (_carta != null) {
             return _carta!!
         }
-        _carta = Builder(name = "Carta", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
+        _carta = Builder(
+            name = "Carta", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
             group {
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveTo(0.0f, 6.77f)
                     verticalLineTo(17.2346f)
                     horizontalLineTo(24.0f)
@@ -114,7 +118,7 @@ public val OtpIcons.Carta: ImageVector
                 }
             }
         }
-        .build()
+            .build()
         return _carta!!
     }
 

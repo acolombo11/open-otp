@@ -16,11 +16,15 @@ public val OtpIcons.Autodesk: ImageVector
         if (_autodesk != null) {
             return _autodesk!!
         }
-        _autodesk = Builder(name = "Autodesk", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _autodesk = Builder(
+            name = "Autodesk", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(14.6591f, 3.785f)
                 lineTo(0.0f, 12.8968f)
                 verticalLineTo(20.2165f)
@@ -39,7 +43,7 @@ public val OtpIcons.Autodesk: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _autodesk!!
     }
 

@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Gitlab: ImageVector
+public val OtpIcons.Gitlab: ImageVector
     get() {
         if (_gitlab != null) {
             return _gitlab!!

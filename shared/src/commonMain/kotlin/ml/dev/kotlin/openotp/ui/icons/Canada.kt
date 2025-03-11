@@ -11,16 +11,20 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Canada: ImageVector
+public val OtpIcons.Canada: ImageVector
     get() {
         if (_canada != null) {
             return _canada!!
         }
-        _canada = Builder(name = "Canada", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _canada = Builder(
+            name = "Canada", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(1.8276f, 11.8621f)
                 lineTo(1.0f, 12.1379f)
                 curveTo(1.0f, 12.1379f, 5.9655f, 16.2759f, 5.9655f, 16.5517f)
@@ -62,7 +66,7 @@ val OtpIcons.Canada: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _canada!!
     }
 

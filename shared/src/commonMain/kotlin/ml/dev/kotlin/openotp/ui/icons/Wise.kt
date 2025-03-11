@@ -17,12 +17,16 @@ public val OtpIcons.Wise: ImageVector
         if (_wise != null) {
             return _wise!!
         }
-        _wise = Builder(name = "Wise", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
+        _wise = Builder(
+            name = "Wise", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
             group {
-                path(fill = SolidColor(Color(0xFF00B9FF)), stroke = null, strokeLineWidth = 0.0f,
-                        strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                        pathFillType = NonZero) {
+                path(
+                    fill = SolidColor(Color(0xFF00B9FF)), stroke = null, strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                    pathFillType = NonZero
+                ) {
                     moveTo(7.3767f, 6.3656f)
                     lineTo(0.71f, 12.7312f)
                     horizontalLineTo(12.0433f)
@@ -40,7 +44,7 @@ public val OtpIcons.Wise: ImageVector
                 }
             }
         }
-        .build()
+            .build()
         return _wise!!
     }
 

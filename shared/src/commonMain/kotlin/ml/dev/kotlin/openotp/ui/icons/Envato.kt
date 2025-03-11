@@ -16,11 +16,15 @@ public val OtpIcons.Envato: ImageVector
         if (_envato != null) {
             return _envato!!
         }
-        _envato = Builder(name = "Envato", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = EvenOdd) {
+        _envato = Builder(
+            name = "Envato", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = EvenOdd
+            ) {
                 moveTo(13.2191f, 16.2651f)
                 lineTo(19.2614f, 15.62f)
                 lineTo(19.2678f, 15.6264f)
@@ -56,7 +60,7 @@ public val OtpIcons.Envato: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _envato!!
     }
 

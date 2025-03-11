@@ -16,11 +16,15 @@ public val OtpIcons.Fresco: ImageVector
         if (_fresco != null) {
             return _fresco!!
         }
-        _fresco = Builder(name = "Fresco", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-                viewportWidth = 24.0f, viewportHeight = 24.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _fresco = Builder(
+            name = "Fresco", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+            viewportWidth = 24.0f, viewportHeight = 24.0f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveTo(20.9047f, 0.7218f)
                 curveTo(20.1799f, 0.1616f, 19.2624f, -0.0881f, 18.3536f, 0.0277f)
                 curveTo(17.4449f, 0.1435f, 16.6192f, 0.6153f, 16.058f, 1.3394f)
@@ -64,7 +68,7 @@ public val OtpIcons.Fresco: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _fresco!!
     }
 

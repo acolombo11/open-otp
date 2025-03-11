@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-val OtpIcons.Amazon: ImageVector
+public val OtpIcons.Amazon: ImageVector
     get() {
         if (_amazon != null) {
             return _amazon!!
