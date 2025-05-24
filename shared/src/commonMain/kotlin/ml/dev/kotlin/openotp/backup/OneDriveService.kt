@@ -102,7 +102,7 @@ sealed class OneDriveService : OAuth2AccountService {
                     method = HttpMethod.Get
                     url(downloadLocation)
                 }
-                    .map { it.readBytes() }
+                    .map { it.readRawBytes() }
                     .getOrNull()
             }.getOrNull()
 

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -18,7 +19,7 @@ kotlin {
 }
 
 android {
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = libs.versions.android.targetSdk.get().toInt()
     namespace = "ml.dev.kotlin.openotp"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -31,11 +32,12 @@ android {
         versionName = getenv()["VERSION"] ?: "1.0.0"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        val javaVersion = JavaVersion.toVersion(libs.versions.java.get().toInt())
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(libs.versions.java.get().toInt())
     }
     buildTypes {
         release {

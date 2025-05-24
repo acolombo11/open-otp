@@ -93,7 +93,7 @@ sealed class DropboxService : OAuth2AccountService {
             }.map { response ->
                 val header = response.headers[HttpHeaders.DropboxApiResult] ?: return@map null
                 val downloadResponse = DropboxJson.decodeFromString<DropboxDownloadResponse>(header)
-                val bytes = response.readBytes()
+                val bytes = response.readRawBytes()
                 bytes.takeIf { it.dropboxContentHash() == downloadResponse.contentHash }
             }.getOrNull()
 
