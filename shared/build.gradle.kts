@@ -1,4 +1,3 @@
-import dev.icerock.gradle.MRVisibility
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
@@ -152,10 +151,6 @@ android {
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     namespace = "ml.dev.kotlin.openotp.shared"
 
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
@@ -170,12 +165,8 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "ml.dev.kotlin.openotp.shared"
-    multiplatformResourcesClassName = "OpenOtpResources"
-    multiplatformResourcesVisibility = MRVisibility.Public
-    iosBaseLocalizationRegion = "en"
-    multiplatformResourcesSourceSet = "commonMain"
-    disableStaticFrameworkWarning = true
+    resourcesPackage.set("ml.dev.kotlin.openotp.shared")
+    resourcesClassName.set("OpenOtpResources")
 }
 
 tasks.withType<KotlinCompilationTask<*>>().all {
