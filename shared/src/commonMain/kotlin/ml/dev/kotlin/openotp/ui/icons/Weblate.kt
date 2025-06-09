@@ -1,10 +1,5 @@
 package ml.dev.kotlin.openotp.ui.icons
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
@@ -17,7 +12,6 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
-import kotlin.Unit
 
 public val OtpIcons.Weblate: ImageVector
     get() {
