@@ -34,7 +34,7 @@ val OtpData.issuerIcon: ImageVector
             OtpIcons.Instagram,
             OtpIcons.LinkedIn,
             OtpIcons.Microsoft,
-            OtpIcons.Octa,
+            OtpIcons.Okta,
             OtpIcons.OneDrive,
             OtpIcons.Paypal,
             OtpIcons.Reddit,

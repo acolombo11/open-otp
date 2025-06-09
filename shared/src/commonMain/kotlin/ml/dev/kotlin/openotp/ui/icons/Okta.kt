@@ -10,17 +10,17 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import ml.dev.kotlin.openotp.ui.OtpIcons
 
-public val OtpIcons.Octa: ImageVector
+public val OtpIcons.Okta: ImageVector
     get() {
-        if (_octa != null) {
-            return _octa!!
+        if (_okta != null) {
+            return _okta!!
         }
-        _octa = ImageVector.Builder(
-            name = "Octa",
+        _okta = ImageVector.Builder(
+            name = "Okta",
             defaultWidth = 24.dp,
-            defaultHeight = 25.dp,
+            defaultHeight = 24.dp,
             viewportWidth = 24f,
-            viewportHeight = 25f,
+            viewportHeight = 24f,
         ).apply {
             group(
                 clipPathData = PathData {
@@ -33,7 +33,7 @@ public val OtpIcons.Octa: ImageVector
             ) {
                 path(
                     fill = SolidColor(Color(0xFF45483D)),
-                    pathFillType = PathFillType.EvenOdd
+                    pathFillType = PathFillType.EvenOdd,
                 ) {
                     moveTo(13.204f, 0.667f)
                     lineTo(12.71f, 6.747f)
@@ -252,7 +252,7 @@ public val OtpIcons.Octa: ImageVector
                 }
             }
         }.build()
-        return _octa!!
+        return _okta!!
     }
 
-private var _octa: ImageVector? = null
+private var _okta: ImageVector? = null
