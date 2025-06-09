@@ -35,14 +35,16 @@ val OtpData.issuerIcon: ImageVector
             OtpIcons.LinkedIn,
             OtpIcons.Microsoft,
             OtpIcons.Octa,
+            OtpIcons.OneDrive,
             OtpIcons.Paypal,
             OtpIcons.Reddit,
             OtpIcons.Samsung,
+            OtpIcons.Subito,
             OtpIcons.Truenas,
             OtpIcons.Twitch,
             OtpIcons.Twitter,
-            OtpIcons.Wise,
             OtpIcons.Weblate,
+            OtpIcons.Wise,
             OtpIcons.Ynab,
         ).find { name.contains(it.name, ignoreCase = true) }
     } ?: Icons.Filled.Lock
