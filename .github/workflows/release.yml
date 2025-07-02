@@ -72,7 +72,7 @@ jobs:
           VERSION: ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
 
       - name: Upload deb artifact file to workflow run results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: runner.os == 'Linux'
         with:
           name: OpenOTP-${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}.deb
@@ -90,7 +90,7 @@ jobs:
           asset_content_type: application/x-deb
 
       - name: Upload msi installer file to workflow run results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: runner.os == 'Windows'
         with:
           name: OpenOTP-${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}.msi
@@ -108,7 +108,7 @@ jobs:
           asset_content_type: application/x-ms-dos-executable
 
       - name: Upload dmg image file to workflow run results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: runner.os == 'macOS'
         with:
           name: OpenOTP-${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}.dmg
@@ -170,19 +170,19 @@ jobs:
           VERSION: ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
 
       - name: Upload debug artifact file to workflow run results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: OpenOTP-Debug-${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}.apk
           path: androidApp/build/outputs/apk/debug/androidApp-debug.apk
 
       - name: Upload release artifact file to workflow run results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: OpenOTP-Release-${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}.apk
           path: androidApp/build/outputs/apk/release/androidApp-release.apk
 
       - name: Upload release bundle file to workflow run results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: OpenOTP-Release-${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}.aab
           path: androidApp/build/outputs/bundle/release/androidApp-release.aab
