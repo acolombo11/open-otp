@@ -1,12 +1,12 @@
 [versions]
 # @keep
-android-compileSdk = "34"
+android-compileSdk = "35"
 # @pin
-android-gradle-plugin = "8.2.2"
+android-gradle-plugin = "8.11.0"
 # @keep
 android-minSdk = "26"
 # @keep
-android-targetSdk = "34"
+android-targetSdk = "35"
 androidx-activity-compose = "1.8.2"
 androidx-appcompat-appcompat = "1.6.1"
 androidx-biometric = "1.2.0-alpha05"
