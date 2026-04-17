@@ -53,6 +53,13 @@ android {
         resources {
             excludes += "META-INF/versions/**"
         }
+        jniLibs {
+            // Force legacy packaging (compression) for native libraries.
+            // This is a workaround for third-party libraries (like ML Kit) that are not yet
+            // 16 KB page-aligned. When compressed, the Android OS extracts and aligns them
+            // correctly at install time on 16 KB devices.
+            useLegacyPackaging = true
+        }
     }
 }
 

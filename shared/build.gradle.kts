@@ -58,7 +58,6 @@ kotlin {
             implementation(compose.components.resources)
 
             implementation(libs.kotlinx.datetime)
-            implementation(libs.buffer)
             implementation(libs.uuid)
             implementation(libs.encoding.base32)
 
@@ -169,8 +168,8 @@ multiplatformResources {
     resourcesClassName.set("OpenOtpResources")
 }
 
-tasks.withType<KotlinCompilationTask<*>>().all {
-    compilerOptions {
-        freeCompilerArgs.add("-Xexpect-actual-classes")
+    tasks.withType<KotlinCompilationTask<*>>().all {
+        compilerOptions {
+            freeCompilerArgs.add("-Xexpect-actual-classes")
+        }
     }
-}

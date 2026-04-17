@@ -9,9 +9,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -32,18 +32,17 @@ actual fun ClickableIconButton(
     interactionSource: MutableInteractionSource,
     content: @Composable () -> Unit
 ) {
+    val ripple = ripple(
+        bounded = false,
+        radius = 20.dp,
+    )
     Box(
         modifier = modifier
             .minimumInteractiveComponentSize()
             .size(40.0.dp)
             .clip(CircleShape)
             .background(containerColor)
-            .indication(
-                interactionSource, indication = rememberRipple(
-                    bounded = false,
-                    radius = 20.dp,
-                )
-            )
+            .indication(interactionSource, indication = ripple)
             .pointerHoverIcon(PointerIcon.Default)
             .hoverable(enabled = true, interactionSource = interactionSource)
             .focusable(enabled = true, interactionSource = interactionSource)
