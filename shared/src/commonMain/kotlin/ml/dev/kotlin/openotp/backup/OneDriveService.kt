@@ -6,8 +6,6 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ml.dev.kotlin.openotp.component.UserLinkedAccountsModel
@@ -15,7 +13,9 @@ import ml.dev.kotlin.openotp.util.createJsonHttpClient
 import ml.dev.kotlin.openotp.util.safeHttpRequest
 import ml.dev.kotlin.openotp.util.safeRequest
 import org.kotlincrypto.hash.sha2.SHA256
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Instant
 
 sealed class OneDriveService : OAuth2AccountService {
 

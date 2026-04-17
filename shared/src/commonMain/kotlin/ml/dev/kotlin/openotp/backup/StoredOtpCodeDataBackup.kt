@@ -1,13 +1,13 @@
 package ml.dev.kotlin.openotp.backup
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.otp.StoredOtpCodeData
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 @Serializable
 data class StoredOtpCodeDataBackup(

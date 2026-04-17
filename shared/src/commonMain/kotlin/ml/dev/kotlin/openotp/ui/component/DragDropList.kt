@@ -197,8 +197,8 @@ private fun LazyItemScope.DraggableItem(
             .zIndex(1f)
             .graphicsLayer { translationY = previous }
 
-        else -> Modifier.animateItemPlacement(
-            animationSpec = tween(easing = FastOutLinearInEasing)
+        else -> Modifier.animateItem(
+            placementSpec = tween(easing = FastOutLinearInEasing)
         )
     }
     content(draggingModifier)
