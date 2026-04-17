@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.LibraryExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
@@ -37,7 +38,6 @@ kotlin {
             languageSettings.apply {
                 optIn("kotlin.contracts.ExperimentalContracts")
                 optIn("kotlinx.serialization.ExperimentalSerializationApi")
-                optIn("kotlin.ExperimentalStdlibApi")
                 optIn("com.russhwolf.settings.ExperimentalSettingsApi")
                 optIn("com.russhwolf.settings.ExperimentalSettingsImplementation")
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
@@ -65,7 +65,6 @@ kotlin {
             implementation(libs.kotlincrypto.macs.hmac.sha1)
             implementation(libs.kotlincrypto.macs.hmac.sha2)
             implementation(libs.kotlincrypto.secure.random)
-            implementation(libs.kotlincrypto.secure.random)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
@@ -86,8 +85,8 @@ kotlin {
             api(libs.essenty.stateKeeper)
             api(libs.essenty.instanceKeeper)
 
-            api(libs.moko.resoures)
-            api(libs.moko.resoures.compose)
+            api(libs.moko.resources)
+            api(libs.moko.resources.compose)
 
             implementation(libs.compose.extensions.camera.permission)
             implementation(libs.compose.extensions.camera.qr)
@@ -101,8 +100,6 @@ kotlin {
         }
 
         androidMain {
-            dependsOn(commonMain.get())
-
             dependencies {
                 api(libs.androidx.activity.compose)
                 api(libs.androidx.appcompat.appcompat)
@@ -124,14 +121,11 @@ kotlin {
         }
 
         iosMain {
-            dependsOn(commonMain.get())
-
             dependencies {
                 implementation(libs.ktor.client.darwin)
             }
         }
 
-        desktopMain.dependsOn(commonMain.get())
         desktopMain.dependencies {
             implementation(compose.desktop.common)
             implementation(libs.webcam.capture)
@@ -146,7 +140,7 @@ kotlin {
     }
 }
 
-android {
+extensions.configure<LibraryExtension> {
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     namespace = "ml.dev.kotlin.openotp.shared"
 
@@ -158,9 +152,6 @@ android {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
     }
-    kotlin {
-        jvmToolchain(libs.versions.java.get().toInt())
-    }
 }
 
 multiplatformResources {
@@ -168,8 +159,8 @@ multiplatformResources {
     resourcesClassName.set("OpenOtpResources")
 }
 
-    tasks.withType<KotlinCompilationTask<*>>().all {
-        compilerOptions {
-            freeCompilerArgs.add("-Xexpect-actual-classes")
-        }
+tasks.withType<KotlinCompilationTask<*>>().all {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
+}

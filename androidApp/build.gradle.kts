@@ -1,28 +1,19 @@
+import com.android.build.api.dsl.ApplicationExtension
 import java.lang.System.getenv
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.application)
-    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
-    androidTarget()
-
-    sourceSets {
-        androidMain.dependencies {
-            implementation(project(":shared"))
-        }
-    }
+    jvmToolchain(libs.versions.java.get().toInt())
 }
 
-android {
+extensions.configure<ApplicationExtension> {
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     namespace = "ml.dev.kotlin.openotp"
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
         applicationId = "ml.dev.kotlin.openotp.OpenOtp"
@@ -35,9 +26,6 @@ android {
         val javaVersion = JavaVersion.toVersion(libs.versions.java.get().toInt())
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
-    }
-    kotlin {
-        jvmToolchain(libs.versions.java.get().toInt())
     }
     buildTypes {
         release {
@@ -61,6 +49,10 @@ android {
             useLegacyPackaging = true
         }
     }
+}
+
+dependencies {
+    implementation(projects.shared)
 }
 
 fun getAndBumpVersionCode(): Int {
