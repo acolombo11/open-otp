@@ -39,6 +39,7 @@ val OtpData.issuerIcon: ImageVector
             OtpIcons.Oracle,
             OtpIcons.Paypal,
             OtpIcons.Reddit,
+            OtpIcons.Register,
             OtpIcons.Samsung,
             OtpIcons.Subito,
             OtpIcons.Truenas,
