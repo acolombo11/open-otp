@@ -4,6 +4,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import ml.dev.kotlin.openotp.component.OpenOtpAppComponentContext
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.hotp_presentation
+import ml.dev.kotlin.openotp.shared.totp_presentation
 import ml.dev.kotlin.openotp.util.Named
 
 @Serializable
@@ -12,8 +14,10 @@ enum class OtpType : Named {
 
     @Transient
     override val OpenOtpAppComponentContext.presentableName: String
-        get() = when (this@OtpType) {
-            TOTP -> stringResource(OpenOtpResources.strings.totp_presentation)
-            HOTP -> stringResource(OpenOtpResources.strings.hotp_presentation)
-        }
+        get() = stringResource(
+            when (this@OtpType) {
+                TOTP -> OpenOtpResources.strings.totp_presentation
+                HOTP -> OpenOtpResources.strings.hotp_presentation
+            }
+        )
 }

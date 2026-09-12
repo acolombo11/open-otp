@@ -27,6 +27,7 @@ import ml.dev.kotlin.openotp.component.MainComponent
 import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.otp.PresentedOtpCodeData
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.add_new_keys
 import ml.dev.kotlin.openotp.ui.component.*
 
 @Composable

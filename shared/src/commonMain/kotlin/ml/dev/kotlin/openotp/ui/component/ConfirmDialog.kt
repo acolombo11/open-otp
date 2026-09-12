@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import dev.icerock.moko.resources.compose.stringResource
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.cancel_button_name
+import ml.dev.kotlin.openotp.shared.proceed_button_name
 
 @Composable
 fun ConfirmDialog(

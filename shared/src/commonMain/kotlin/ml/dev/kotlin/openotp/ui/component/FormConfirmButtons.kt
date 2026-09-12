@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.stringResource
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.cancel_button_name
+import ml.dev.kotlin.openotp.shared.save_button_name
 
 @Composable
 internal fun FormConfirmButtons(

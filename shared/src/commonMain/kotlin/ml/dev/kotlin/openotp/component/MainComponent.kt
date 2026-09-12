@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 import ml.dev.kotlin.openotp.USER_PREFERENCES_MODULE_QUALIFIER
 import ml.dev.kotlin.openotp.otp.*
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.copied_code_to_clipboard
+import ml.dev.kotlin.openotp.shared.missing_camera_permissions
 import ml.dev.kotlin.openotp.ui.component.DragDropListData
 import ml.dev.kotlin.openotp.ui.component.DragDropListData.Grouped
 import ml.dev.kotlin.openotp.ui.component.DragDropListData.Listed

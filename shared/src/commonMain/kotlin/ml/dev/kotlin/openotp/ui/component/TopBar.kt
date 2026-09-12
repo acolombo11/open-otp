@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import dev.icerock.moko.resources.compose.stringResource
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.back_icon_name
 
 @Composable
 fun TopBar(

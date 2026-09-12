@@ -7,6 +7,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import ml.dev.kotlin.openotp.otp.*
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.invalid_qr_code
 import ml.dev.kotlin.openotp.util.isValidBase32Secret
 
 interface ScanQRCodeComponent {

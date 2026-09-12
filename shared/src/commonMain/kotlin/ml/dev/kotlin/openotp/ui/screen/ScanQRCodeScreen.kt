@@ -27,6 +27,10 @@ import dev.icerock.moko.resources.compose.stringResource
 import `in`.procyk.compose.camera.qr.QRCodeScanner
 import ml.dev.kotlin.openotp.component.ScanQRCodeComponent
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.camera_image_name
+import ml.dev.kotlin.openotp.shared.camera_not_available
+import ml.dev.kotlin.openotp.shared.cancel_button_name
+import ml.dev.kotlin.openotp.shared.scan_qr_code
 import ml.dev.kotlin.openotp.ui.component.LoadingAnimatedVisibility
 import ml.dev.kotlin.openotp.ui.theme.Typography
 

@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.stringResource
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.app_icon
+import ml.dev.kotlin.openotp.shared.authenticate_request
+import ml.dev.kotlin.openotp.shared.locked_icon_name
 import ml.dev.kotlin.openotp.ui.OtpIcons
 import ml.dev.kotlin.openotp.ui.component.LoadingAnimatedVisibility
 import ml.dev.kotlin.openotp.ui.icons.OpenOtp

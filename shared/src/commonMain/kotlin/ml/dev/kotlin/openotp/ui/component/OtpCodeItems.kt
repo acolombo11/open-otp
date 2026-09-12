@@ -13,7 +13,6 @@ import androidx.compose.material.DismissValue.*
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cached
-import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.rememberDismissState
@@ -41,6 +40,13 @@ import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.otp.PresentedOtpCodeData
 import ml.dev.kotlin.openotp.otp.TotpData
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.confirm_delete_item_prompt
+import ml.dev.kotlin.openotp.shared.confirm_delete_specific_item_prompt
+import ml.dev.kotlin.openotp.shared.edit_icon_name
+import ml.dev.kotlin.openotp.shared.delete_icon_name
+import ml.dev.kotlin.openotp.shared.issuer_icon_name
+import ml.dev.kotlin.openotp.shared.question_icon_name
+import ml.dev.kotlin.openotp.shared.restart_icon_name
 import ml.dev.kotlin.openotp.ui.issuerIcon
 import ml.dev.kotlin.openotp.util.currentEpochMilliseconds
 import kotlin.math.roundToInt

@@ -16,6 +16,7 @@ val OtpData.issuerIcon: ImageVector
             OtpIcons.Autodesk,
             OtpIcons.BambooHr,
             OtpIcons.Bitwarden,
+            OtpIcons.Booqable,
             OtpIcons.Canada,
             OtpIcons.Carta,
             OtpIcons.Cloudflare,
@@ -47,6 +48,7 @@ val OtpData.issuerIcon: ImageVector
             OtpIcons.Twitter,
             OtpIcons.Weblate,
             OtpIcons.Wise,
+            OtpIcons.Workwell,
             OtpIcons.Ynab,
         ).find { name.contains(it.name, ignoreCase = true) }
     } ?: Icons.Filled.Lock

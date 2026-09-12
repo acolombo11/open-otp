@@ -10,6 +10,15 @@ import ml.dev.kotlin.openotp.component.OpenOtpAppTheme.System
 import ml.dev.kotlin.openotp.component.SortOtpDataBy.Dont
 import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.account_name_sort_name
+import ml.dev.kotlin.openotp.shared.dark_theme_name
+import ml.dev.kotlin.openotp.shared.default_group_name_account_name_sort_name
+import ml.dev.kotlin.openotp.shared.default_group_name_dont_sort_name
+import ml.dev.kotlin.openotp.shared.default_group_name_issuer_sort_name
+import ml.dev.kotlin.openotp.shared.dont_sort_name
+import ml.dev.kotlin.openotp.shared.issuer_sort_name
+import ml.dev.kotlin.openotp.shared.light_theme_name
+import ml.dev.kotlin.openotp.shared.system_theme_name
 import ml.dev.kotlin.openotp.ui.theme.*
 import ml.dev.kotlin.openotp.util.Named
 

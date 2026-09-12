@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import ml.dev.kotlin.openotp.otp.*
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.counter_field
+import ml.dev.kotlin.openotp.shared.invalid_field_name_provided_formatted
+import ml.dev.kotlin.openotp.shared.secret_field
 import ml.dev.kotlin.openotp.util.isValidBase32Secret
 
 interface AddOtpProviderComponent {

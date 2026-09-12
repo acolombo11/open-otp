@@ -18,6 +18,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.icerock.moko.resources.compose.stringResource
 import ml.dev.kotlin.openotp.component.LinkAccountComponent
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.request_app_permissions
 import ml.dev.kotlin.openotp.ui.component.FormButtonIconSpacing
 import ml.dev.kotlin.openotp.ui.component.FormButtonStandardPadding
 import ml.dev.kotlin.openotp.ui.component.FormField

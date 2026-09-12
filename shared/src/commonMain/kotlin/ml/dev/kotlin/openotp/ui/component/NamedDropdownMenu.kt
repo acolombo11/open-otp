@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.stringResource
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.dropdown_icon_name
 import ml.dev.kotlin.openotp.ui.theme.Shapes
 import ml.dev.kotlin.openotp.ui.theme.Typography
 import ml.dev.kotlin.openotp.util.Named

@@ -5,6 +5,8 @@ import com.arkivanov.decompose.value.Value
 import ml.dev.kotlin.openotp.USER_PREFERENCES_MODULE_QUALIFIER
 import ml.dev.kotlin.openotp.component.SettingsComponentImpl.LinkedAccountState
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.link_account_button_name
+import ml.dev.kotlin.openotp.shared.unlink_account_button_name
 import ml.dev.kotlin.openotp.util.BiometryAuthenticator
 import ml.dev.kotlin.openotp.util.Named
 import ml.dev.kotlin.openotp.util.StateFlowSettings

@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import ml.dev.kotlin.openotp.component.OpenOtpAppComponentContext
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.totp_period_second_unit_presentation
 import ml.dev.kotlin.openotp.util.Named
 import kotlin.time.Instant
 

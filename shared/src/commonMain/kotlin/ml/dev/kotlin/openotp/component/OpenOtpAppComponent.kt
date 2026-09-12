@@ -13,6 +13,8 @@ import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.otp.OtpType
 import ml.dev.kotlin.openotp.otp.TotpData
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.authenticate_request_description
+import ml.dev.kotlin.openotp.shared.authenticate_request_title
 import ml.dev.kotlin.openotp.util.BiometryAuthenticator
 import ml.dev.kotlin.openotp.util.StateFlowSettings
 import org.koin.core.component.get

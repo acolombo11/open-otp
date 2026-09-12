@@ -26,6 +26,15 @@ import ml.dev.kotlin.openotp.otp.OtpType.HOTP
 import ml.dev.kotlin.openotp.otp.OtpType.TOTP
 import ml.dev.kotlin.openotp.otp.TotpPeriod
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.account_details_group_name
+import ml.dev.kotlin.openotp.shared.account_name_field_name
+import ml.dev.kotlin.openotp.shared.advanced_settings_group_name
+import ml.dev.kotlin.openotp.shared.algorithm_field_name
+import ml.dev.kotlin.openotp.shared.counter_field_name
+import ml.dev.kotlin.openotp.shared.digits_field_name
+import ml.dev.kotlin.openotp.shared.issuer_field_name
+import ml.dev.kotlin.openotp.shared.period_field_name
+import ml.dev.kotlin.openotp.shared.secret_field_name
 import ml.dev.kotlin.openotp.ui.component.*
 
 @Composable

@@ -5,6 +5,8 @@ import dev.icerock.moko.resources.StringResource
 import kotlinx.serialization.Serializable
 import ml.dev.kotlin.openotp.backup.*
 import ml.dev.kotlin.openotp.shared.OpenOtpResources
+import ml.dev.kotlin.openotp.shared.dropbox_name
+import ml.dev.kotlin.openotp.shared.onedrive_name
 import ml.dev.kotlin.openotp.ui.OtpIcons
 import ml.dev.kotlin.openotp.ui.icons.Dropbox
 import ml.dev.kotlin.openotp.ui.icons.OneDrive

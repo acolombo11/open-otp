@@ -65,6 +65,8 @@ kotlin {
             implementation(libs.kotlincrypto.macs.hmac.sha2)
             implementation(libs.kotlincrypto.secure.random)
 
+            implementation(libs.cryptography.core)
+
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
@@ -109,6 +111,8 @@ kotlin {
                 implementation(libs.mlkit.barcodeScanning)
                 implementation(libs.androidx.security.crypto)
 
+                implementation(libs.cryptography.provider.jdk)
+
                 implementation(libs.ktor.client.okhttp)
 
                 runtimeOnly(libs.kotlinx.coroutines.android)
@@ -122,6 +126,8 @@ kotlin {
         iosMain {
             dependencies {
                 implementation(libs.ktor.client.darwin)
+
+                implementation(libs.cryptography.provider.apple)
             }
         }
 
@@ -135,6 +141,8 @@ kotlin {
             runtimeOnly(libs.kotlinx.coroutines.swing)
 
             implementation(libs.ktor.client.okhttp)
+
+            implementation(libs.cryptography.provider.jdk)
         }
     }
 }
