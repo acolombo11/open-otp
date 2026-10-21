@@ -46,6 +46,7 @@
     <string name="remove_icon_name">Usuń</string>
     <string name="restart_icon_name">Zrestartuj</string>
     <string name="copy_icon_name">Skopiuj</string>
+    <string name="edit_icon_name">Edytuj</string>
     <string name="delete_icon_name">Usuń</string>
     <string name="question_icon_name">Pytanie</string>
     <string name="dropdown_icon_name">Wybierz z wielu opcji</string>
