@@ -30,6 +30,7 @@
     <string name="require_authentication">Require authentication before start</string>
     <string name="authenticate_request">Authenticate</string>
     <string name="authenticate_request_title">User authentication</string>
+    <string name="qr_code_authenticate_request_description">Authenticate to reveal the authenticator key QR code.</string>
     <string name="authenticate_request_description">Authenticate to get access to application codes.</string>
     <string name="app_icon">App icon</string>
     <string name="dropbox_name">Dropbox</string>
@@ -70,6 +71,10 @@
 
     <string name="issuer_field_name">Issuer</string>
     <string name="account_name_field_name">Account Name</string>
+    <string name="authenticator_key_group_name">Authenticator key</string>
+    <string name="qr_code_tap_to_reveal">Tap to reveal</string>
+    <string name="copied">Copied!</string>
+    <string name="qr_code_tap_to_hide">Tap to hide</string>
     <string name="secret_field_name">Secret</string>
     <string name="password_field_name">Password</string>
     <string name="algorithm_field_name">Algorithm</string>

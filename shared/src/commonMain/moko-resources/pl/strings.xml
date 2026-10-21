@@ -32,6 +32,7 @@
     <string name="require_authentication">Wymagaj uwierzytelnienia przed uruchomieniem</string>
     <string name="authenticate_request">Uwierzytelnij</string>
     <string name="authenticate_request_title">Uwierzytelnienie użytkownika</string>
+    <string name="qr_code_authenticate_request_description">Uwierzytelnij się, aby wyświetlić kod QR klucza uwierzytelniającego.</string>
     <string name="authenticate_request_description">Uwierzytelnij, aby uzyskać dostęp do kodów aplikacji.</string>
     <string name="app_icon">Ikona aplikacji</string>
     <string name="dropbox_name">Dropbox</string>
@@ -71,6 +72,10 @@
 
     <string name="issuer_field_name">Wystawca</string>
     <string name="account_name_field_name">Nazwa konta</string>
+    <string name="authenticator_key_group_name">Klucz uwierzytelniający</string>
+    <string name="qr_code_tap_to_reveal">Dotknij, aby wyświetlić</string>
+    <string name="copied">Skopiowano!</string>
+    <string name="qr_code_tap_to_hide">Dotknij, aby ukryć</string>
     <string name="secret_field_name">Sekret</string>
     <string name="password_field_name">Hasło</string>
     <string name="algorithm_field_name">Algorytm</string>

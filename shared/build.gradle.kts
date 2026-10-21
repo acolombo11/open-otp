@@ -59,6 +59,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.uuid)
             implementation(libs.encoding.base32)
+            implementation(libs.qrcode.kotlin)
 
             implementation(libs.kotlincrypto.hash.sha2)
             implementation(libs.kotlincrypto.macs.hmac.sha1)

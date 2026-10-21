@@ -1,18 +1,30 @@
 package ml.dev.kotlin.openotp.ui.screen
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pin
+import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.icerock.moko.resources.compose.stringResource
@@ -33,8 +45,13 @@ import ml.dev.kotlin.openotp.shared.algorithm_field_name
 import ml.dev.kotlin.openotp.shared.counter_field_name
 import ml.dev.kotlin.openotp.shared.digits_field_name
 import ml.dev.kotlin.openotp.shared.issuer_field_name
+import ml.dev.kotlin.openotp.shared.authenticator_key_group_name
+import ml.dev.kotlin.openotp.shared.copied
+import ml.dev.kotlin.openotp.shared.qr_code_tap_to_hide
+import ml.dev.kotlin.openotp.shared.qr_code_tap_to_reveal
 import ml.dev.kotlin.openotp.shared.period_field_name
 import ml.dev.kotlin.openotp.shared.secret_field_name
+import androidx.compose.foundation.shape.RoundedCornerShape
 import ml.dev.kotlin.openotp.ui.component.*
 
 @Composable
@@ -183,6 +200,7 @@ private fun AddOtpProviderScreen(
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
         AccountDetails(component)
+        AuthenticatorKey(component)
         FormGroup(
             groupName = stringResource(OpenOtpResources.strings.advanced_settings_group_name),
             content = advancedSettingsContent,
@@ -226,3 +244,79 @@ private fun AccountDetails(component: AddOtpProviderComponent) {
         )
     }
 }
+
+@Composable
+private fun AuthenticatorKey(component: AddOtpProviderComponent) {
+    FormGroup(
+        groupName = stringResource(OpenOtpResources.strings.authenticator_key_group_name)
+    ) {
+        val qrCodeUri by component.qrCodeUri.subscribeAsState()
+        val secret by component.secret.subscribeAsState()
+        val revealed = qrCodeUri.isNotEmpty()
+        val toggle = if (revealed) component::onHideQrCodeClicked else component::onRevealQrCodeClicked
+        val clipboardManager = LocalClipboardManager.current
+        var copied by remember { mutableStateOf(false) }
+        LaunchedEffect(copied, revealed) {
+            if (copied) {
+                delay(2000)
+                copied = false
+            }
+        }
+        LaunchedEffect(revealed) {
+            if (!revealed) copied = false
+        }
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(QrCodeSize)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(if (revealed) Color.White else MaterialTheme.colorScheme.surfaceVariant)
+                    .clickable(onClick = toggle),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (revealed) {
+                    QrCode(data = qrCodeUri, modifier = Modifier.fillMaxSize().padding(12.dp))
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.QrCode2,
+                        contentDescription = null,
+                        modifier = Modifier.size(QrCodeSize / 2),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+            Text(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(4.dp))
+                    .clickable(enabled = revealed) {
+                        clipboardManager.setText(AnnotatedString(secret))
+                        copied = true
+                    },
+                text = if (revealed) secret else "\u2022".repeat(secret.length),
+                style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                maxLines = 1,
+                softWrap = false,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                modifier = Modifier.clip(RoundedCornerShape(4.dp)).clickable(onClick = toggle),
+                text = stringResource(
+                    when {
+                        !revealed -> OpenOtpResources.strings.qr_code_tap_to_reveal
+                        copied -> OpenOtpResources.strings.copied
+                        else -> OpenOtpResources.strings.qr_code_tap_to_hide
+                    }
+                ),
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
+
+private val QrCodeSize = 220.dp
