@@ -1,15 +1,15 @@
 package ml.dev.kotlin.openotp.component
 
+import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import ml.dev.kotlin.openotp.USER_PREFERENCES_MODULE_QUALIFIER
 import ml.dev.kotlin.openotp.component.SettingsComponentImpl.LinkedAccountState
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.link_account_button_name
-import ml.dev.kotlin.openotp.shared.unlink_account_button_name
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.util.BiometryAuthenticator
 import ml.dev.kotlin.openotp.util.Named
 import ml.dev.kotlin.openotp.util.StateFlowSettings
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.component.get
 
 interface SettingsComponent {
@@ -84,9 +84,7 @@ class SettingsComponentImpl(
         .stateFlow
         .map { linkedAccounts ->
             UserLinkedAccountType.entries.map { accountType ->
-                if (accountType.isLinked(linkedAccounts)) Linked(accountType) else Unlinked(
-                    accountType
-                )
+                if (accountType.isLinked(linkedAccounts)) Linked(accountType) else Unlinked(accountType)
             }
         }
         .asValue()
@@ -126,14 +124,15 @@ class SettingsComponentImpl(
     sealed class LinkedAccountState(protected val accountType: UserLinkedAccountType) : Named {
         val icon = accountType.icon
 
-        val name = accountType.res
+        @Composable
+        fun iconContentDescription(): String = accountType.iconContentDescription()
 
         abstract fun onClick()
     }
 
     inner class Linked(type: UserLinkedAccountType) : LinkedAccountState(type) {
-        override val OpenOtpAppComponentContext.presentableName: String
-            get() = stringResource(OpenOtpResources.strings.unlink_account_button_name)
+        @Composable
+        override fun presentableName(): String = stringResource(Res.string.unlink_account_button_name)
 
         override fun onClick() {
             _userLinkedAccounts.updateInScope { accountType.reset(it) }
@@ -141,8 +140,8 @@ class SettingsComponentImpl(
     }
 
     inner class Unlinked(type: UserLinkedAccountType) : LinkedAccountState(type) {
-        override val OpenOtpAppComponentContext.presentableName: String
-            get() = stringResource(OpenOtpResources.strings.link_account_button_name)
+        @Composable
+        override fun presentableName(): String = stringResource(Res.string.link_account_button_name)
 
         override fun onClick() {
             _userLinkedAccounts

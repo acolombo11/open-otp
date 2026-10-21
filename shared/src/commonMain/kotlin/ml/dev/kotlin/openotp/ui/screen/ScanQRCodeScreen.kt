@@ -23,14 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
 import `in`.procyk.compose.camera.qr.QRCodeScanner
 import ml.dev.kotlin.openotp.component.ScanQRCodeComponent
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.camera_image_name
-import ml.dev.kotlin.openotp.shared.camera_not_available
-import ml.dev.kotlin.openotp.shared.cancel_button_name
-import ml.dev.kotlin.openotp.shared.scan_qr_code
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.ui.component.LoadingAnimatedVisibility
 import ml.dev.kotlin.openotp.ui.theme.Typography
 
@@ -48,7 +44,7 @@ internal fun ScanQRCodeScreen(
             onResult = scanQRCodeComponent::onQRCodeScanned,
             onIsLoadingChange = { isLoading = it },
             backgroundColor = MaterialTheme.colorScheme.background,
-            contentDescription = stringResource(OpenOtpResources.strings.camera_image_name),
+            contentDescription = stringResource(Res.string.camera_image_name),
             missingCameraContent = {
                 Box(
                     modifier = Modifier
@@ -57,7 +53,7 @@ internal fun ScanQRCodeScreen(
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = stringResource(OpenOtpResources.strings.camera_not_available),
+                        text = stringResource(Res.string.camera_not_available),
                         textAlign = TextAlign.Center,
                     )
                 }
@@ -73,7 +69,7 @@ internal fun ScanQRCodeScreen(
 
 @Composable
 private fun CancelScanQRCodeButton(onCancel: () -> Unit) {
-    val cancelText = stringResource(OpenOtpResources.strings.cancel_button_name)
+    val cancelText = stringResource(Res.string.cancel_button_name)
     val containerColor = MaterialTheme.colorScheme.background
     val contentColor = contentColorFor(MaterialTheme.colorScheme.background)
     IconButton(
@@ -157,7 +153,7 @@ private fun QRCodeCameraHole(
 @Composable
 private fun ScanQRCodeIcon() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        val text = stringResource(OpenOtpResources.strings.scan_qr_code)
+        val text = stringResource(Res.string.scan_qr_code)
         Icon(
             imageVector = Icons.Default.QrCodeScanner,
             contentDescription = text,

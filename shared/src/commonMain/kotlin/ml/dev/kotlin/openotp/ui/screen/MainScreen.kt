@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
 import `in`.procyk.compose.camera.permission.CameraPermission.Denied
 import `in`.procyk.compose.camera.permission.CameraPermission.Granted
 import `in`.procyk.compose.camera.permission.rememberCameraPermissionState
@@ -26,8 +26,7 @@ import ml.dev.kotlin.openotp.component.LinkedAccountsSyncState
 import ml.dev.kotlin.openotp.component.MainComponent
 import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.otp.PresentedOtpCodeData
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.add_new_keys
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.ui.component.*
 
 @Composable
@@ -155,7 +154,7 @@ private fun AllOtpCodeItems(
                         top = contentPaddingTop,
                         bottom = contentPaddingBottom
                     ),
-                    text = stringResource(OpenOtpResources.strings.add_new_keys),
+                    text = stringResource(Res.string.add_new_keys),
                 )
             }
         }

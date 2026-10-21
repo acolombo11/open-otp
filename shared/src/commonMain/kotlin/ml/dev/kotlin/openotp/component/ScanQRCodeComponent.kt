@@ -6,9 +6,10 @@ import `in`.procyk.compose.camera.qr.QRResult
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import ml.dev.kotlin.openotp.otp.*
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.invalid_qr_code
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.util.isValidBase32Secret
+import ml.dev.kotlin.openotp.util.letFalse
+import org.jetbrains.compose.resources.StringResource
 
 interface ScanQRCodeComponent {
 
@@ -19,16 +20,16 @@ interface ScanQRCodeComponent {
 
 class ScanQRCodeComponentImpl(
     componentContext: ComponentContext,
-    private val navigateOnCancel: (message: String?) -> Unit,
+    private val navigateOnCancel: (message: StringResource?) -> Unit,
 ) : AbstractBackupComponent(componentContext), ScanQRCodeComponent {
 
     override fun onQRCodeScanned(result: QRResult): Boolean = when (result) {
-        is QRResult.QRError -> false.also { navigateOnCancel(invalidQRCodeMessage) }
+        is QRResult.QRError -> navigateOnCancel(Res.string.invalid_qr_code).letFalse()
         is QRResult.QRSuccess -> {
             val distinctOtpData = result.nonEmptyCodes.distinct().map(::extractQRCodeUserOtpCodeData)
             val nonNullOtpData = distinctOtpData.filterNotNull()
             if (distinctOtpData.size != nonNullOtpData.size) {
-                navigateOnCancel(invalidQRCodeMessage)
+                navigateOnCancel(Res.string.invalid_qr_code)
             } else {
                 val updated = nonNullOtpData.map { otpData ->
                     _userOtpCodeData.updateInScope { it + otpData }
@@ -45,10 +46,10 @@ class ScanQRCodeComponentImpl(
         navigateOnCancel(null)
     }
 
-    private fun extractQRCodeUserOtpCodeData(qrRawValue: String): OtpData? = try {
-        val uri = Uri.parseOrNull(qrRawValue)?.takeIf { it.isOtpAuthScheme }
-            ?: throw InvalidQRCodeException
+    private fun extractQRCodeUserOtpCodeData(qrRawValue: String?): OtpData? = try {
+        val uri = qrRawValue.uri
 
+        uri.validateScheme()
         val secret = uri.secret
         val issuer = uri.issuer
         val name = uri.label
@@ -58,21 +59,19 @@ class ScanQRCodeComponentImpl(
         when (uri.otpType) {
             OtpType.TOTP -> {
                 val period = uri.period
-                val default by lazy { TotpConfig() }
                 val config = TotpConfig(
-                    period = period ?: default.period,
-                    codeDigits = codeDigits ?: default.codeDigits,
-                    hmacAlgorithm = hmacAlgorithm ?: default.hmacAlgorithm,
+                    period = period ?: TotpConfig.DEFAULT.period,
+                    codeDigits = codeDigits ?: TotpConfig.DEFAULT.codeDigits,
+                    hmacAlgorithm = hmacAlgorithm ?: TotpConfig.DEFAULT.hmacAlgorithm
                 )
                 TotpData(issuer, name, secret, config)
             }
 
             else -> {
                 val counter = uri.counter
-                val default by lazy { HotpConfig() }
                 val config = HotpConfig(
-                    codeDigits = codeDigits ?: default.codeDigits,
-                    hmacAlgorithm = hmacAlgorithm ?: default.hmacAlgorithm,
+                    codeDigits = codeDigits ?: HotpConfig.DEFAULT.codeDigits,
+                    hmacAlgorithm = hmacAlgorithm ?: HotpConfig.DEFAULT.hmacAlgorithm
                 )
                 HotpData(issuer, name, secret, counter, config)
             }
@@ -80,24 +79,21 @@ class ScanQRCodeComponentImpl(
     } catch (_: InvalidQRCodeException) {
         null
     }
-
-    private val invalidQRCodeMessage: String
-        get() = stringResource(OpenOtpResources.strings.invalid_qr_code)
 }
 
-private object InvalidQRCodeException : IllegalArgumentException()
+private class InvalidQRCodeException : IllegalArgumentException()
 
 private val Uri.otpType: OtpType
     get() = when (host) {
         "totp" -> OtpType.TOTP
         "hotp" -> OtpType.HOTP
-        else -> throw InvalidQRCodeException
+        else -> throw InvalidQRCodeException()
     }
 
 private val Uri.secret: String
     get() = getQueryParameter("secret")
         ?.takeIf { it.isValidBase32Secret }
-        ?: throw InvalidQRCodeException
+        ?: throw InvalidQRCodeException()
 
 private val Uri.issuer: String?
     get() = getQueryParameter("issuer")
@@ -106,12 +102,12 @@ private val Uri.label: String?
     get() = path?.removePrefix("/")
 
 private val Uri.hmacAlgorithm: HmacAlgorithm?
-    get() = when (getQueryParameter("algorithm")?.lowercase()) {
+    get() = when (getQueryParameter("algorithm")) {
         "sha1" -> HmacAlgorithm.SHA1
         "sha256" -> HmacAlgorithm.SHA256
         "sha512" -> HmacAlgorithm.SHA512
         null -> null
-        else -> throw InvalidQRCodeException
+        else -> throw InvalidQRCodeException()
     }
 
 private val Uri.codeDigits: OtpDigits?
@@ -119,7 +115,7 @@ private val Uri.codeDigits: OtpDigits?
         "6" -> OtpDigits.Six
         "8" -> OtpDigits.Eight
         null -> null
-        else -> throw InvalidQRCodeException
+        else -> throw InvalidQRCodeException()
     }
 
 private val Uri.period: TotpPeriod?
@@ -128,14 +124,19 @@ private val Uri.period: TotpPeriod?
         "30" -> TotpPeriod.Thirty
         "60" -> TotpPeriod.Sixty
         null -> null
-        else -> throw InvalidQRCodeException
+        else -> throw InvalidQRCodeException()
     }
 
 private val Uri.counter: HotpCounter
     get() = getQueryParameter("counter")
         ?.toLongOrNull()
         ?.takeIf { it.isValid() }
-        ?: throw InvalidQRCodeException
+        ?: throw InvalidQRCodeException()
 
-private val Uri.isOtpAuthScheme: Boolean
-    get() = scheme == "otpauth"
+private fun Uri.validateScheme(): Unit =
+    if ("otpauth" != scheme) throw InvalidQRCodeException() else Unit
+
+private val String?.uri: Uri
+    get() = this
+        ?.let(Uri.Companion::parseOrNull)
+        ?: throw InvalidQRCodeException()

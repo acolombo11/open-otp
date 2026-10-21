@@ -1,23 +1,30 @@
-import com.android.build.api.dsl.LibraryExtension
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.moko.resources)
 }
 
 kotlin {
-    androidTarget()
+    android {
+        namespace = "ml.dev.kotlin.openotp.shared"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        androidResources {
+            enable = true
+        }
+    }
 
     jvm("desktop")
 
     listOf(
         iosArm64(),
-        iosSimulatorArm64(),
+        iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "shared"
@@ -26,6 +33,12 @@ kotlin {
             export(libs.essenty.lifecycle)
             export(libs.essenty.stateKeeper)
         }
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
     }
 
     applyDefaultHierarchyTemplate()
@@ -37,6 +50,8 @@ kotlin {
             languageSettings.apply {
                 optIn("kotlin.contracts.ExperimentalContracts")
                 optIn("kotlinx.serialization.ExperimentalSerializationApi")
+                optIn("kotlin.ExperimentalStdlibApi")
+                optIn("kotlin.time.ExperimentalTime")
                 optIn("com.russhwolf.settings.ExperimentalSettingsApi")
                 optIn("com.russhwolf.settings.ExperimentalSettingsImplementation")
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
@@ -48,13 +63,14 @@ kotlin {
             }
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.animationGraphics)
-            implementation(compose.components.resources)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.material)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.material.icons.extended)
+            implementation(libs.compose.animation.graphics)
+            implementation(libs.compose.components.resources)
 
             implementation(libs.kotlinx.datetime)
             implementation(libs.uuid)
@@ -63,9 +79,7 @@ kotlin {
             implementation(libs.kotlincrypto.hash.sha2)
             implementation(libs.kotlincrypto.macs.hmac.sha1)
             implementation(libs.kotlincrypto.macs.hmac.sha2)
-            implementation(libs.kotlincrypto.secure.random)
-
-            implementation(libs.cryptography.core)
+            implementation(libs.kotlincrypto.random.crypto.rand)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
@@ -86,11 +100,9 @@ kotlin {
             api(libs.essenty.stateKeeper)
             api(libs.essenty.instanceKeeper)
 
-            api(libs.moko.resources)
-            api(libs.moko.resources.compose)
-
             implementation(libs.compose.extensions.camera.permission)
             implementation(libs.compose.extensions.camera.qr)
+            implementation(libs.compose.extensions.util)
 
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.core)
@@ -111,23 +123,15 @@ kotlin {
                 implementation(libs.mlkit.barcodeScanning)
                 implementation(libs.androidx.security.crypto)
 
-                implementation(libs.cryptography.provider.jdk)
-
                 implementation(libs.ktor.client.okhttp)
 
                 runtimeOnly(libs.kotlinx.coroutines.android)
-            }
-
-            languageSettings {
-                optIn("com.google.accompanist.permissions.ExperimentalPermissionsApi")
             }
         }
 
         iosMain {
             dependencies {
                 implementation(libs.ktor.client.darwin)
-
-                implementation(libs.cryptography.provider.apple)
             }
         }
 
@@ -141,29 +145,26 @@ kotlin {
             runtimeOnly(libs.kotlinx.coroutines.swing)
 
             implementation(libs.ktor.client.okhttp)
+        }
 
-            implementation(libs.cryptography.provider.jdk)
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.js)
+        }
+
+        val desktopTest by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
         }
     }
+
+    jvmToolchain(17)
 }
 
-extensions.configure<LibraryExtension> {
-    compileSdk = libs.versions.android.targetSdk.get().toInt()
-    namespace = "ml.dev.kotlin.openotp.shared"
-
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        val javaVersion = JavaVersion.toVersion(libs.versions.java.get().toInt())
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-    }
-}
-
-multiplatformResources {
-    resourcesPackage.set("ml.dev.kotlin.openotp.shared")
-    resourcesClassName.set("OpenOtpResources")
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "ml.dev.kotlin.openotp.shared"
+    generateResClass = always
 }
 
 tasks.withType<KotlinCompilationTask<*>>().all {

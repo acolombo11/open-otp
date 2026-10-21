@@ -15,9 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.compose.stringResource
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.dropdown_icon_name
+import org.jetbrains.compose.resources.stringResource
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.ui.theme.Shapes
 import ml.dev.kotlin.openotp.ui.theme.Typography
 import ml.dev.kotlin.openotp.util.Named
@@ -51,7 +50,7 @@ internal fun <T : Named> NamedDropdownMenu(
             )
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = stringResource(OpenOtpResources.strings.dropdown_icon_name),
+                contentDescription = stringResource(Res.string.dropdown_icon_name),
                 modifier = Modifier.padding(16.dp),
                 tint = contentColorFor(MaterialTheme.colorScheme.secondary),
             )

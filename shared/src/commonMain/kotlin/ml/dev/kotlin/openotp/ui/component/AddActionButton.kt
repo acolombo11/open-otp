@@ -21,9 +21,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.compose.stringResource
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.add_button_name
+import org.jetbrains.compose.resources.stringResource
+import ml.dev.kotlin.openotp.shared.*
 
 @Composable
 internal fun AddActionButton(
@@ -45,7 +44,7 @@ internal fun AddActionButton(
             contentAlignment = Alignment.BottomEnd,
         ) {
             val fabState = rememberMultiFabState()
-            val buttonText = stringResource(OpenOtpResources.strings.add_button_name)
+            val buttonText = stringResource(Res.string.add_button_name)
 
             val expanded by remember {
                 derivedStateOf {

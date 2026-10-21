@@ -9,11 +9,9 @@ import ml.dev.kotlin.openotp.USER_OTP_CODE_DATA_MODULE_QUALIFIER
 import ml.dev.kotlin.openotp.backup.*
 import ml.dev.kotlin.openotp.backup.SerializedStoredOtpCodeDataBackup.Companion.toSerializedBackup
 import ml.dev.kotlin.openotp.otp.StoredOtpCodeData
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.failed_all
-import ml.dev.kotlin.openotp.shared.failed_some
-import ml.dev.kotlin.openotp.shared.synced_all
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.util.StateFlowSettings
+import ml.dev.kotlin.openotp.util.unit
 import org.koin.core.component.get
 
 abstract class AbstractBackupComponent(
@@ -71,17 +69,17 @@ abstract class AbstractBackupComponent(
 
                 results.all { it } -> {
                     _linkedAccountsSyncState.value = LinkedAccountsSyncState.Synced
-                    toast(stringResource(OpenOtpResources.strings.synced_all))
+                    toast(Res.string.synced_all)
                 }
 
                 results.any { it } -> {
                     _linkedAccountsSyncState.value = LinkedAccountsSyncState.Synced
-                    toast(stringResource(OpenOtpResources.strings.failed_some))
+                    toast(Res.string.failed_some)
                 }
 
                 else -> {
                     _linkedAccountsSyncState.value = LinkedAccountsSyncState.NotSynced
-                    toast(stringResource(OpenOtpResources.strings.failed_all))
+                    toast(Res.string.failed_all)
                 }
             }
         }
@@ -100,6 +98,6 @@ abstract class AbstractBackupComponent(
             val downloadedData = jobs.awaitAll().filterNotNull()
             downloadedData.merge(current = currentCodeData)
         }
-        _userOtpCodeData.updateInScope { updatedCodeData }
+        _userOtpCodeData.updateInScope { updatedCodeData }.unit()
     }
 }

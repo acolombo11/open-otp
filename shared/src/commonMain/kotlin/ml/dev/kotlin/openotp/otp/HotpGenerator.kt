@@ -4,6 +4,7 @@ import ml.dev.kotlin.openotp.util.decodeBase32ToByteArray
 import org.kotlincrypto.macs.hmac.sha1.HmacSHA1
 import org.kotlincrypto.macs.hmac.sha2.HmacSHA256
 import org.kotlincrypto.macs.hmac.sha2.HmacSHA512
+import kotlin.experimental.and
 import kotlin.math.pow
 
 class HotpGenerator(
@@ -13,8 +14,8 @@ class HotpGenerator(
     private val secret: ByteArray = secret.decodeBase32ToByteArray()
 
     fun generate(count: HotpCounter): String {
-        val message = ByteArray(8) { i ->
-            ((count shr (56 - i * 8)) and 0xFF).toByte()
+        val message = ByteArray(Long.SIZE_BYTES) { idx ->
+            (count ushr (Byte.SIZE_BITS * (Long.SIZE_BYTES - 1 - idx))).toByte()
         }
 
         val hash = when (config.hmacAlgorithm) {
@@ -23,15 +24,15 @@ class HotpGenerator(
             HmacAlgorithm.SHA512 -> HmacSHA512(secret)
         }.doFinal(message)
 
-        val offset = hash.last().toInt() and 0x0F
+        val offset = hash.last().and(0x0F).toInt()
 
-        val binary = ((hash[offset].toInt() and 0x7F) shl 24) or
-                ((hash[offset + 1].toInt() and 0xFF) shl 16) or
-                ((hash[offset + 2].toInt() and 0xFF) shl 8) or
-                (hash[offset + 3].toInt() and 0xFF)
+        val binary = ByteArray(Int.SIZE_BYTES) { idx -> hash[idx + offset] }
+
+        binary[0] = binary[0].and(0x7F)
 
         val digits = config.codeDigits.number
-        val codeInt = binary % 10.0.pow(digits).toInt()
+        val codeInt = binary.fold(0) { acc, byte -> (acc shl Byte.SIZE_BITS) or (byte.toInt() and 0xFF) }
+            .rem(10.0.pow(digits).toInt())
 
         return codeInt.toString().padStart(digits, padChar = '0')
     }

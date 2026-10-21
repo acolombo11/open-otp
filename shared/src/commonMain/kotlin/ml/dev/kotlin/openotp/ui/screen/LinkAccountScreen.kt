@@ -15,12 +15,12 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
 import ml.dev.kotlin.openotp.component.LinkAccountComponent
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.request_app_permissions
 import ml.dev.kotlin.openotp.ui.component.FormButtonIconSpacing
 import ml.dev.kotlin.openotp.ui.component.FormButtonStandardPadding
+import ml.dev.kotlin.openotp.shared.*
+import ml.dev.kotlin.openotp.ui.OtpIcons
 import ml.dev.kotlin.openotp.ui.component.FormField
 import ml.dev.kotlin.openotp.ui.component.FormFieldButtonType
 import ml.dev.kotlin.openotp.ui.component.TopBar
@@ -49,7 +49,7 @@ internal fun LinkAccountScreen(
                 tint = MaterialTheme.colorScheme.secondary,
             )
             OutlinedButton(onClick = { component.onRequestAppPermissions(uriHandler) }) {
-                Text(stringResource(OpenOtpResources.strings.request_app_permissions))
+                Text(stringResource(Res.string.request_app_permissions))
             }
             AnimatedVisibility(
                 visible = shouldEnterCode,

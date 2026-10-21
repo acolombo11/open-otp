@@ -19,9 +19,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import dev.icerock.moko.resources.compose.stringResource
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.password_field_name
+import org.jetbrains.compose.resources.stringResource
+import ml.dev.kotlin.openotp.shared.*
 
 @Composable
 internal fun FormField(
@@ -74,7 +73,7 @@ private fun PasswordIcon(
     IconButton(onClick = onIconClick) {
         Icon(
             imageVector = if (showPassword) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-            contentDescription = stringResource(OpenOtpResources.strings.password_field_name)
+            contentDescription = stringResource(Res.string.password_field_name)
         )
     }
 }

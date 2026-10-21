@@ -11,10 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.compose.stringResource
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.cancel_button_name
-import ml.dev.kotlin.openotp.shared.save_button_name
+import org.jetbrains.compose.resources.stringResource
+import ml.dev.kotlin.openotp.shared.*
 
 @Composable
 internal fun FormConfirmButtons(
@@ -78,15 +76,17 @@ internal fun SaveCancelFormConfirmButtons(
     onSaveClicked: () -> Unit,
     onCancelClicked: () -> Unit,
 ) {
+    val saveText = stringResource(Res.string.save_button_name)
+    val cancelText = stringResource(Res.string.cancel_button_name)
     FormConfirmButtons(
         modifier = modifier.padding(16.dp),
         confirm = FormConfirmButtonData(
-            text = stringResource(OpenOtpResources.strings.save_button_name),
+            text = stringResource(Res.string.save_button_name),
             imageVector = Icons.Outlined.Save,
             onClick = onSaveClicked,
         ),
         cancel = FormConfirmButtonData(
-            text = stringResource(OpenOtpResources.strings.cancel_button_name),
+            text = stringResource(Res.string.cancel_button_name),
             imageVector = Icons.Outlined.Cancel,
             onClick = onCancelClicked,
         )

@@ -4,8 +4,8 @@ import java.lang.System.getenv
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.multiplatform)
 }
 
 kotlin {
@@ -19,9 +19,7 @@ kotlin {
             implementation(project(":shared"))
         }
     }
-    kotlin {
-        jvmToolchain(libs.versions.java.get().toInt())
-    }
+    jvmToolchain(17)
 }
 
 compose.desktop {

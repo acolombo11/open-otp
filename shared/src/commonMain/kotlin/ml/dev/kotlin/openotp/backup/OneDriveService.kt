@@ -6,34 +6,42 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
+import io.ktor.util.*
+import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ml.dev.kotlin.openotp.component.UserLinkedAccountsModel
 import ml.dev.kotlin.openotp.util.createJsonHttpClient
+import ml.dev.kotlin.openotp.util.randomBytesChallenge
 import ml.dev.kotlin.openotp.util.safeHttpRequest
 import ml.dev.kotlin.openotp.util.safeRequest
 import org.kotlincrypto.hash.sha2.SHA256
-import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.Instant
 
 sealed class OneDriveService : OAuth2AccountService {
 
     protected val client: HttpClient by lazy(::createJsonHttpClient)
 
     data object Initialized : OneDriveService(), OAuth2AccountService.Initialized {
-        override fun requestPermissions() = getAccessData()?.let { RequestedPermissions(it) }
+        override fun requestPermissions(): RequestedPermissions? {
+            val bytes = randomBytesChallenge(count = 32) ?: return null
+            val codeVerifier = bytes.oneDriveEncodeBase64()
+            val codeChallenge = SHA256().digest(codeVerifier.encodeToByteArray()).oneDriveEncodeBase64()
+            val accessData = OneDriveAccessData(codeVerifier, codeChallenge)
+            return RequestedPermissions(accessData)
+        }
     }
 
     class RequestedPermissions(
-        private val accessData: AccessData,
+        private val accessData: OneDriveAccessData,
     ) : OneDriveService(), OAuth2AccountService.RequestedPermissions {
 
         override fun generateVerifyUri(): String =
             "https://login.microsoftonline.com/common/oauth2/v2.0/authorize" +
                     "?client_id=$CLIENT_ID" +
                     "&response_type=code" +
-                    "&redirect_uri=https%3A%2F%2Fopen-otp.procyk.in" +
+                    "&redirect_uri=${ONEDRIVE_REDIRECT_URI.encodeURLParameter()}" +
                     "&response_mode=fragment" +
                     "&scope=offline_access+files.readwrite.all" +
                     "&code_challenge=${accessData.codeChallenge}" +
@@ -48,7 +56,7 @@ sealed class OneDriveService : OAuth2AccountService {
                     append("grant_type", "authorization_code")
                     append("code_verifier", accessData.codeVerifier)
                     append("client_id", CLIENT_ID)
-                    append("redirect_uri", "https://open-otp.procyk.in")
+                    append("redirect_uri", ONEDRIVE_REDIRECT_URI)
                     append("scope", "files.readwrite.all")
                 }))
             }.map { response ->
@@ -88,7 +96,7 @@ sealed class OneDriveService : OAuth2AccountService {
                 header(HttpHeaders.Authorization, "Bearer ${refreshableAccessData.accessToken}")
                 setBody(ByteArrayContent(data))
             }.map { response ->
-                response.file.hashes.sha256Hash == data.oneDriveContentHash()
+                response.file.hashes.quickXorHash == data.quickXorHashBase64()
             }
 
         override suspend fun downloadBackupData(): ByteArray? =
@@ -102,7 +110,7 @@ sealed class OneDriveService : OAuth2AccountService {
                     method = HttpMethod.Get
                     url(downloadLocation)
                 }
-                    .map { it.readRawBytes() }
+                    .map { it.readBytes() }
                     .getOrNull()
             }.getOrNull()
 
@@ -110,6 +118,11 @@ sealed class OneDriveService : OAuth2AccountService {
             linkedAccounts.copy(onedrive = refreshableAccessData)
     }
 }
+
+data class OneDriveAccessData(
+    val codeVerifier: String,
+    val codeChallenge: String,
+)
 
 @Serializable
 data class OneDriveRefreshableAccessData(
@@ -149,7 +162,7 @@ private data class OneDriveUploadResponse(
     ) {
         @Serializable
         data class Hashes(
-            @SerialName("sha256Hash") val sha256Hash: String,
+            @SerialName("quickXorHash") val quickXorHash: String,
         )
     }
 }
@@ -172,5 +185,11 @@ private const val CLIENT_ID: String = "8612f175-11d3-4dea-960a-d2cb89867a33"
 
 private const val BACKUP_PATH: String = "OpenOTP/OpenOTP.backup"
 
-private fun ByteArray.oneDriveContentHash(): String =
-    SHA256().digest(this).toHexString(format = HexFormat.UpperCase)
+internal const val ONEDRIVE_NATIVE_REDIRECT_URI: String = "https://open-otp.procyk.in/onedrive-native"
+
+internal const val ONEDRIVE_WEB_REDIRECT_URI: String = "https://open-otp.procyk.in/onedrive-web"
+
+private fun ByteArray.oneDriveEncodeBase64(): String = encodeBase64()
+    .replace('+', '-')
+    .replace('/', '_')
+    .replace("=", "")

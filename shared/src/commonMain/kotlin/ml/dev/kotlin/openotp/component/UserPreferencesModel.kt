@@ -9,29 +9,22 @@ import kotlinx.serialization.Serializable
 import ml.dev.kotlin.openotp.component.OpenOtpAppTheme.System
 import ml.dev.kotlin.openotp.component.SortOtpDataBy.Dont
 import ml.dev.kotlin.openotp.otp.OtpData
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.account_name_sort_name
-import ml.dev.kotlin.openotp.shared.dark_theme_name
-import ml.dev.kotlin.openotp.shared.default_group_name_account_name_sort_name
-import ml.dev.kotlin.openotp.shared.default_group_name_dont_sort_name
-import ml.dev.kotlin.openotp.shared.default_group_name_issuer_sort_name
-import ml.dev.kotlin.openotp.shared.dont_sort_name
-import ml.dev.kotlin.openotp.shared.issuer_sort_name
-import ml.dev.kotlin.openotp.shared.light_theme_name
-import ml.dev.kotlin.openotp.shared.system_theme_name
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.ui.theme.*
 import ml.dev.kotlin.openotp.util.Named
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 enum class OpenOtpAppTheme : Named {
     System, Light, Dark;
 
-    override val OpenOtpAppComponentContext.presentableName: String
-        get() = when (this@OpenOtpAppTheme) {
-            Light -> stringResource(OpenOtpResources.strings.light_theme_name)
-            Dark -> stringResource(OpenOtpResources.strings.dark_theme_name)
-            System -> stringResource(OpenOtpResources.strings.system_theme_name)
-        }
+    @Composable
+    override fun presentableName(): String = when (this@OpenOtpAppTheme) {
+        Light -> stringResource(Res.string.light_theme_name)
+        Dark -> stringResource(Res.string.dark_theme_name)
+        System -> stringResource(Res.string.system_theme_name)
+    }
 
     @Composable
     fun colorScheme(): ColorScheme = when (isDarkTheme()) {
@@ -55,18 +48,18 @@ enum class SortOtpDataBy(
     Issuer(selector = { data -> data.issuer?.takeIf { it.isNotBlank() } }),
     AccountName(selector = { data -> data.accountName?.takeIf { it.isNotBlank() } });
 
-    override val OpenOtpAppComponentContext.presentableName: String
-        get() = when (this@SortOtpDataBy) {
-            Dont -> stringResource(OpenOtpResources.strings.dont_sort_name)
-            Issuer -> stringResource(OpenOtpResources.strings.issuer_sort_name)
-            AccountName -> stringResource(OpenOtpResources.strings.account_name_sort_name)
-        }
+    @Composable
+    override fun presentableName(): String = when (this@SortOtpDataBy) {
+        Dont -> stringResource(Res.string.dont_sort_name)
+        Issuer -> stringResource(Res.string.issuer_sort_name)
+        AccountName -> stringResource(Res.string.account_name_sort_name)
+    }
 
-    val OpenOtpAppComponentContext.defaultGroupName: String
+    val defaultGroupName: StringResource
         get() = when (this@SortOtpDataBy) {
-            Dont -> stringResource(OpenOtpResources.strings.default_group_name_dont_sort_name)
-            Issuer -> stringResource(OpenOtpResources.strings.default_group_name_issuer_sort_name)
-            AccountName -> stringResource(OpenOtpResources.strings.default_group_name_account_name_sort_name)
+            Dont -> Res.string.default_group_name_dont_sort_name
+            Issuer -> Res.string.default_group_name_issuer_sort_name
+            AccountName -> Res.string.default_group_name_account_name_sort_name
         }
 }
 

@@ -13,10 +13,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import dev.icerock.moko.resources.compose.stringResource
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.cancel_button_name
-import ml.dev.kotlin.openotp.shared.proceed_button_name
+import org.jetbrains.compose.resources.stringResource
+import ml.dev.kotlin.openotp.shared.*
 
 @Composable
 fun ConfirmDialog(
@@ -25,8 +23,8 @@ fun ConfirmDialog(
     text: String,
     icon: ImageVector,
     imageDescription: String,
-    dismissText: String = stringResource(OpenOtpResources.strings.cancel_button_name),
-    confirmText: String = stringResource(OpenOtpResources.strings.proceed_button_name),
+    dismissText: String = stringResource(Res.string.cancel_button_name),
+    confirmText: String = stringResource(Res.string.proceed_button_name),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(

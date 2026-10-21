@@ -15,9 +15,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import ml.dev.kotlin.openotp.USER_PREFERENCES_MODULE_QUALIFIER
 import ml.dev.kotlin.openotp.otp.*
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.copied_code_to_clipboard
-import ml.dev.kotlin.openotp.shared.missing_camera_permissions
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.ui.component.DragDropListData
 import ml.dev.kotlin.openotp.ui.component.DragDropListData.Grouped
 import ml.dev.kotlin.openotp.ui.component.DragDropListData.Listed
@@ -75,8 +73,6 @@ class MainComponentImpl(
         val changed: Boolean = false,
     )
 
-    private val appContext: OpenOtpAppComponentContext = get()
-
     private val userPreferences: StateFlowSettings<UserPreferencesModel> =
         get(USER_PREFERENCES_MODULE_QUALIFIER)
 
@@ -98,7 +94,7 @@ class MainComponentImpl(
         userPreferences.stateFlow.map { it.sortOtpDataReversed },
         userPreferences.stateFlow.map { it.sortOtpDataNullsFirst },
     ) { codes, sortBy, sortReversed, sortNullsFirst ->
-        appContext.sortOtpCodeDataWithRules(codes, sortBy, sortReversed, sortNullsFirst)
+        sortOtpCodeDataWithRules(codes, sortBy, sortReversed, sortNullsFirst)
     }.asValue()
 
     private val _isSearchActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -137,7 +133,7 @@ class MainComponentImpl(
         }
         if (updated.count < MAX_CAMERA_PERMISSION_SILENT_REQUESTS) return
 
-        toast(message = stringResource(OpenOtpResources.strings.missing_camera_permissions))
+        toast(message = Res.string.missing_camera_permissions)
     }
 
     override fun onOtpCodeDataRemove(otpData: OtpData): Boolean {
@@ -179,7 +175,8 @@ class MainComponentImpl(
         val string = AnnotatedString(code)
         clipboardManager.setText(string)
         toast(
-            message = stringResource(OpenOtpResources.strings.copied_code_to_clipboard, code),
+            Res.string.copied_code_to_clipboard,
+            code,
             withDismissAction = false,
         )
     }
@@ -209,7 +206,7 @@ class MainComponentImpl(
 
 private const val MAX_CAMERA_PERMISSION_SILENT_REQUESTS: Int = 2
 
-private fun OpenOtpAppComponentContext.sortOtpCodeDataWithRules(
+private fun sortOtpCodeDataWithRules(
     codes: StoredOtpCodeData,
     sortBy: SortOtpDataBy,
     sortReversed: Boolean,
@@ -221,11 +218,11 @@ private fun OpenOtpAppComponentContext.sortOtpCodeDataWithRules(
     val reversedComparator = if (sortReversed) otpDataComparator.reversed() else otpDataComparator
     val sorted = codes.sortedWith(reversedComparator)
 
-    val groupedCodes = linkedMapOf<String, MutableList<OtpData>>()
+    val groupedCodes = linkedMapOf<String?, MutableList<OtpData>>()
     for (otpData in sorted) {
-        val groupName = selector(otpData) ?: with(sortBy) { defaultGroupName }
+        val groupName = selector(otpData)
         groupedCodes[groupName] ?: ArrayList<OtpData>().also { groupedCodes[groupName] = it } += otpData
     }
     val groups = groupedCodes.map { Grouped.Group(it.key, it.value) }
-    return Grouped(groups)
+    return Grouped(groups, sortBy.defaultGroupName)
 }

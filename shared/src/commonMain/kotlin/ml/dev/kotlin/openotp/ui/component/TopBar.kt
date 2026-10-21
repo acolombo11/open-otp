@@ -1,5 +1,6 @@
 package ml.dev.kotlin.openotp.ui.component
 
+import ml.dev.kotlin.openotp.shared.*
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
@@ -14,9 +15,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import dev.icerock.moko.resources.compose.stringResource
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.back_icon_name
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TopBar(
@@ -29,7 +28,7 @@ fun TopBar(
             IconButton(onClick = it) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(OpenOtpResources.strings.back_icon_name),
+                    contentDescription = stringResource(Res.string.back_icon_name),
                     tint = contentColorFor(accent),
                 )
             }

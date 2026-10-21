@@ -32,18 +32,12 @@ import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
 import ml.dev.kotlin.openotp.component.LinkedAccountsSyncState
 import ml.dev.kotlin.openotp.component.LinkedAccountsSyncState.*
 import ml.dev.kotlin.openotp.otp.OtpData
 import ml.dev.kotlin.openotp.otp.PresentedOtpCodeData
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.back_icon_name
-import ml.dev.kotlin.openotp.shared.backups_state
-import ml.dev.kotlin.openotp.shared.remove_icon_name
-import ml.dev.kotlin.openotp.shared.search_field
-import ml.dev.kotlin.openotp.shared.search_icon_name
-import ml.dev.kotlin.openotp.shared.settings_name
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.ui.component.DragDropListData.Companion.emptyDragDropListData
 
 @Composable
@@ -85,7 +79,7 @@ internal fun FilteredOtpCodeItems(
             onActiveChange = onSearchBarActiveChange,
             placeholder = {
                 Text(
-                    text = stringResource(OpenOtpResources.strings.search_field),
+                    text = stringResource(Res.string.search_field),
                     style = searchBarTextStyle(enabled = false, interactionSource)
                 )
             },
@@ -93,7 +87,7 @@ internal fun FilteredOtpCodeItems(
                 when (isSearchActive) {
                     false -> Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = stringResource(OpenOtpResources.strings.search_icon_name),
+                        contentDescription = stringResource(Res.string.search_icon_name),
                     )
 
                     true -> IconButton(
@@ -104,7 +98,7 @@ internal fun FilteredOtpCodeItems(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(OpenOtpResources.strings.back_icon_name)
+                            contentDescription = stringResource(Res.string.back_icon_name)
                         )
                     }
                 }
@@ -114,7 +108,7 @@ internal fun FilteredOtpCodeItems(
                     IconButton(onClick = { searchQuery = "" }) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = stringResource(OpenOtpResources.strings.remove_icon_name),
+                            contentDescription = stringResource(Res.string.remove_icon_name),
                         )
                     }
                 } else if (!isSearchActive) {
@@ -131,14 +125,14 @@ internal fun FilteredOtpCodeItems(
                             ) {
                                 Icon(
                                     imageVector = imageVector,
-                                    contentDescription = stringResource(OpenOtpResources.strings.backups_state),
+                                    contentDescription = stringResource(Res.string.backups_state),
                                 )
                             }
                         }
                         IconButton(onSettingsIconClick) {
                             Icon(
                                 imageVector = Icons.Default.Settings,
-                                contentDescription = stringResource(OpenOtpResources.strings.settings_name),
+                                contentDescription = stringResource(Res.string.settings_name),
                             )
                         }
                     }

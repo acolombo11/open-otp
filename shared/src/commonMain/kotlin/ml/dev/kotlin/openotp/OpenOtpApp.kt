@@ -1,17 +1,21 @@
 package ml.dev.kotlin.openotp
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import `in`.procyk.compose.util.OnceLaunchedEffect
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.builtins.ListSerializer
 import ml.dev.kotlin.openotp.component.LinkedAccountsSyncState.NothingToSync
@@ -34,31 +38,43 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
 @Composable
-internal fun OpenOtpApp(component: OpenOtpAppComponent) {
+internal fun OpenOtpApp(
+    component: OpenOtpAppComponent,
+    onBackgroundColorChange: (Color) -> Unit = {},
+) {
     OpenOtpTheme(component) {
-        BindBiometryAuthenticatorEffect(koinInject<BiometryAuthenticator>())
-        LaunchedEffect(true) { component.onAuthenticate() }
-
-        val authenticated by component.authenticated.subscribeAsState()
-        AuthenticationScreen(
-            authenticated = authenticated,
-            onAuthenticate = component::onAuthenticate,
+        val backgroundColor = MaterialTheme.colorScheme.surface
+        LaunchedEffect(backgroundColor) { onBackgroundColorChange(backgroundColor) }
+        Surface(
+            color = backgroundColor,
+            modifier = Modifier.fillMaxSize(),
         ) {
-            Children(
-                stack = component.stack,
-                modifier = Modifier.fillMaxSize(),
-                animation = stackAnimation(slide())
-            ) { child ->
-                Scaffold(
-                    snackbarHost = { SnackbarHost(koinInject<SnackbarHostState>()) },
-                ) {
-                    when (val instance = child.instance) {
-                        is Child.Main -> MainScreen(instance.component)
-                        is Child.ScanQRCode -> ScanQRCodeScreen(instance.component)
-                        is Child.AddProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent)
-                        is Child.Settings -> SettingsScreen(instance.component)
-                        is Child.LinkAccount -> LinkAccountScreen(instance.component)
-                        is Child.EditProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent, instance.otpType)
+            BindBiometryAuthenticatorEffect(koinInject<BiometryAuthenticator>())
+            OnceLaunchedEffect { component.onAuthenticate() }
+
+            val authenticated by component.authenticated.subscribeAsState()
+            AuthenticationScreen(
+                authenticated = authenticated,
+                onAuthenticate = component::onAuthenticate,
+            ) {
+                Children(
+                    stack = component.stack,
+                    modifier = Modifier.fillMaxSize(),
+                    animation = stackAnimation(slide())
+                ) { child ->
+                    val snackbarHostState = koinInject<SnackbarHostState>()
+                    Scaffold(
+                        snackbarHost = { SnackbarHost(snackbarHostState) },
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        when (val instance = child.instance) {
+                            is Child.Main -> MainScreen(instance.component)
+                            is Child.ScanQRCode -> ScanQRCodeScreen(instance.component)
+                            is Child.AddProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent)
+                            is Child.EditProvider -> AddProviderScreen(instance.totpComponent, instance.hotpComponent, instance.otpType)
+                            is Child.Settings -> SettingsScreen(instance.component)
+                            is Child.LinkAccount -> LinkAccountScreen(instance.component)
+                        }
                     }
                 }
             }

@@ -1,10 +1,9 @@
 rootProject.name = "OpenOTP"
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
 include(":androidApp")
 include(":shared")
 include(":desktopApp")
+include(":webApp")
 
 pluginManagement {
     repositories {

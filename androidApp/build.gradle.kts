@@ -1,18 +1,19 @@
-import com.android.build.api.dsl.ApplicationExtension
 import java.lang.System.getenv
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+    jvmToolchain(17)
 }
 
-extensions.configure<ApplicationExtension> {
-    compileSdk = libs.versions.android.targetSdk.get().toInt()
+dependencies {
+    implementation(project(":shared"))
+}
+
+android {
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     namespace = "ml.dev.kotlin.openotp"
 
     defaultConfig {
@@ -23,9 +24,8 @@ extensions.configure<ApplicationExtension> {
         versionName = getenv()["VERSION"] ?: "1.0.0"
     }
     compileOptions {
-        val javaVersion = JavaVersion.toVersion(libs.versions.java.get().toInt())
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildTypes {
         release {
@@ -41,18 +41,7 @@ extensions.configure<ApplicationExtension> {
         resources {
             excludes += "META-INF/versions/**"
         }
-        jniLibs {
-            // Force legacy packaging (compression) for native libraries.
-            // This is a workaround for third-party libraries (like ML Kit) that are not yet
-            // 16 KB page-aligned. When compressed, the Android OS extracts and aligns them
-            // correctly at install time on 16 KB devices.
-            useLegacyPackaging = true
-        }
     }
-}
-
-dependencies {
-    implementation(projects.shared)
 }
 
 fun getAndBumpVersionCode(): Int {
@@ -60,7 +49,7 @@ fun getAndBumpVersionCode(): Int {
     val bump = getenv()["BUMP_FILE_VERSION_CODE"]?.toBooleanStrictOrNull() ?: false
     if (!bump) return code
 
-    val file = File("gradle/libs.versions.toml")
+    val file = project.file("../gradle/libs.versions.toml")
     val updatedFile = file.readLines().map { line ->
         if (!line.startsWith("versionCode")) return@map line
 

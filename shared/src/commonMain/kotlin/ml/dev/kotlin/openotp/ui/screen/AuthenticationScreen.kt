@@ -11,11 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.compose.stringResource
-import ml.dev.kotlin.openotp.shared.OpenOtpResources
-import ml.dev.kotlin.openotp.shared.app_icon
-import ml.dev.kotlin.openotp.shared.authenticate_request
-import ml.dev.kotlin.openotp.shared.locked_icon_name
+import org.jetbrains.compose.resources.stringResource
+import ml.dev.kotlin.openotp.shared.*
 import ml.dev.kotlin.openotp.ui.OtpIcons
 import ml.dev.kotlin.openotp.ui.component.LoadingAnimatedVisibility
 import ml.dev.kotlin.openotp.ui.icons.OpenOtp
@@ -32,7 +29,7 @@ internal fun AuthenticationScreen(
         precedingContent = {
             Image(
                 imageVector = OtpIcons.OpenOtp,
-                contentDescription = stringResource(OpenOtpResources.strings.app_icon),
+                contentDescription = stringResource(Res.string.app_icon),
                 modifier = Modifier.size(128.dp)
             )
         },
@@ -47,11 +44,11 @@ internal fun AuthenticationScreen(
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Lock,
-                    contentDescription = stringResource(OpenOtpResources.strings.locked_icon_name)
+                    contentDescription = stringResource(Res.string.locked_icon_name)
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    text = stringResource(OpenOtpResources.strings.authenticate_request),
+                    text = stringResource(Res.string.authenticate_request),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
