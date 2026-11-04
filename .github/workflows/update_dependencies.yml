@@ -47,4 +47,3 @@ jobs:
           delete-branch: true
           title: 'Update Dependencies'
           body: ${{ env.REPORT }}
-          reviewers: avan1235
